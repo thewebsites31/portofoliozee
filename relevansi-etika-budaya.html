@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relevansi Matkul — Etika & Budaya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { cursor: none; scroll-behavior: smooth; }
+
+    :root {
+      --magenta: #ff2d78;
+      --cyan: #00f5ff;
+      --yellow: #ffe600;
+      --dark: #070710;
+      --darker: #04040a;
+      --grid: rgba(255, 45, 120, 0.08);
+      --text: #e8e8f0;
+      --muted: #6b6b8a;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+      --font-body: 'Rajdhani', sans-serif;
+      --font-ui: 'Orbitron', sans-serif;
+    }
+
+    body {
+      background: var(--darker);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9997; opacity: 0.5;
+    }
+
+    .grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .grid-bg::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(255,45,120,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(0,245,255,0.06) 0%, transparent 50%);
+    }
+
+    .scanlines {
+      position: fixed; inset: 0; pointer-events: none; z-index: 9996;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    }
+
+    /* Cursor */
+    .cursor {
+      width: 12px; height: 12px;
+      background: var(--magenta);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99999;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1px solid var(--magenta);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+      mix-blend-mode: screen;
+    }
+    .cursor-ring.hovered { width: 60px; height: 60px; background: rgba(255,45,120,0.10); border-color: var(--cyan); }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 0 40px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(255,45,120,0.2);
+      background: rgba(4,4,10,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--font-ui); font-size: 13px; font-weight: 900;
+      color: var(--magenta); letter-spacing: 3px; text-transform: uppercase;
+      text-shadow: 0 0 20px var(--magenta);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-back {
+      font-family: var(--font-mono); font-size: 11px; color: var(--muted);
+      letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+      display: flex; align-items: center; gap: 8px;
+      transition: color 0.2s;
+    }
+    .nav-back::before { content: '←'; color: var(--magenta); }
+    .nav-back:hover { color: var(--magenta); }
+
+    .nav-counter { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 2px; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    .blink { animation: blink 1s infinite; }
+
+    main { position: relative; z-index: 1; padding-top: 64px; }
+
+    /* Hero */
+    .hero {
+      padding: 84px 60px 44px;
+      border-bottom: 1px solid rgba(255,45,120,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0 0 auto 0; height: 2px;
+      background: linear-gradient(to right, var(--cyan), var(--magenta), var(--yellow), var(--cyan));
+      background-size: 200% 100%;
+      animation: shimmer 3.2s linear infinite;
+      opacity: 0.9;
+    }
+    @keyframes shimmer { from { background-position: 200% center; } to { background-position: -200% center; } }
+
+    .hero-inner { max-width: 1100px; }
+    .hero-kicker {
+      font-family: var(--font-mono);
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px;
+    }
+    .hero-kicker::before { content: ''; width: 40px; height: 1px; background: var(--cyan); }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(54px, 7vw, 88px);
+      letter-spacing: 3px;
+      line-height: 0.95;
+      color: #fff;
+      text-shadow: 0 0 60px rgba(255,45,120,0.25);
+    }
+    .hero-sub {
+      margin-top: 14px;
+      max-width: 920px;
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      padding: 56px 60px 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 44px;
+      align-items: start;
+    }
+
+    /* TOC */
+    .toc {
+      position: sticky;
+      top: 88px;
+      border: 1px solid rgba(255,45,120,0.15);
+      background: rgba(255,45,120,0.03);
+      padding: 20px;
+      overflow: hidden;
+    }
+    .toc::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(to right, var(--magenta), var(--cyan));
+    }
+    .toc-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+    .toc a {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-decoration: none;
+      color: var(--muted);
+      padding: 10px 8px;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
+    }
+    .toc a:hover {
+      color: var(--text);
+      border-color: rgba(0,245,255,0.25);
+      background: rgba(0,245,255,0.05);
+      box-shadow: 0 0 18px rgba(0,245,255,0.10);
+    }
+
+    /* Card/section */
+    .block {
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .block::before {
+      content: '';
+      position: absolute; inset: 0 auto 0 0; width: 3px;
+      background: var(--cyan);
+      opacity: 0.9;
+    }
+    .block[data-accent="magenta"]::before { background: var(--magenta); }
+    .block[data-accent="yellow"]::before { background: var(--yellow); }
+
+    .block-head {
+      padding: 22px 22px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.12);
+    }
+    .block-kicker {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex; align-items: baseline; gap: 10px;
+      margin-bottom: 10px;
+    }
+    .block-num { color: var(--cyan); font-weight: 700; }
+    .block[data-accent="magenta"] .block-num { color: var(--magenta); }
+    .block[data-accent="yellow"] .block-num { color: var(--yellow); }
+
+    .block-title {
+      font-family: var(--font-display);
+      font-size: 40px;
+      letter-spacing: 2px;
+      line-height: 1.05;
+      color: #fff;
+    }
+
+    .block-body {
+      padding: 22px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.95;
+      font-weight: 300;
+    }
+    .block-body h3 {
+      margin-top: 18px;
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .block-body p + p { margin-top: 14px; }
+    .block-body em { color: var(--text); font-style: italic; }
+    .block-body strong { color: var(--text); font-weight: 600; }
+
+    footer {
+      position: relative; z-index: 1;
+      padding: 40px 60px;
+      border-top: 1px solid rgba(255,45,120,0.15);
+      background: rgba(4,4,10,0.8);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo {
+      font-family: var(--font-ui); font-size: 11px; color: var(--magenta);
+      letter-spacing: 3px; font-weight: 900; text-shadow: 0 0 10px var(--magenta);
+      text-transform: uppercase;
+    }
+    .footer-logo span { color: var(--cyan); }
+    footer p { font-family: var(--font-mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+    footer p span { color: var(--magenta); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--darker); }
+    ::-webkit-scrollbar-thumb { background: var(--magenta); border-radius: 0; }
+
+    @media (max-width: 980px) {
+      nav { padding: 0 20px; }
+      .hero { padding: 84px 20px 44px; }
+      .wrap { padding: 44px 20px 70px; grid-template-columns: 1fr; }
+      .toc { position: relative; top: 0; }
+      footer { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="grid-bg"></div>
+  <div class="scanlines"></div>
+
+  <nav>
+    <a class="nav-logo" href="index.html">PORTO<span>FOLIO</span> INDIVIDU</a>
+    <a class="nav-back" href="index.html">Kembali ke Beranda</a>
+    <div class="nav-counter">SYS_<span class="blink">_</span></div>
+  </nav>
+
+  <main>
+    <header class="hero" id="top">
+      <div class="hero-inner">
+        <div class="hero-kicker">RELEVANSI MATKUL</div>
+        <h1 class="hero-title">ETIKA &amp; BUDAYA<br/>DALAM TUGAS PIZZA</h1>
+        <p class="hero-sub">
+          Halaman ini menampung pembahasan lengkap Relevansi Matkul (kartu 1–6) dengan gaya visual yang konsisten dengan website utama.
+        </p>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <aside class="toc">
+        <div class="toc-title">// Navigasi</div>
+        <a href="#pemahaman-awal">Pemahaman Awal</a>
+        <a href="#rel-1">Relevansi 1</a>
+        <a href="#rel-2">Relevansi 2</a>
+        <a href="#rel-3">Relevansi 3</a>
+        <a href="#rel-4">Relevansi 4</a>
+        <a href="#rel-5">Relevansi 5</a>
+        <a href="#rel-6">Relevansi 6</a>
+        <a href="#kesimpulan">Kesimpulan</a>
+        <a href="#top" style="margin-top:10px;color:var(--cyan)">Kembali ke atas ↑</a>
+      </aside>
+
+      <div class="content">
+        <section class="block" id="pemahaman-awal" data-accent="cyan">
+          <div class="block-head">
+            <div class="block-kicker"><span class="block-num">INTRO</span> / Pemahaman Awal</div>
+            <h2 class="block-title">Mengapa Pizza dan Etika Budaya Bisa Berjalan Bersama?</h2>
+          </div>
+          <div class="block-body">
+            <p>Sebelum masuk ke analisis relevansi, kita perlu meluruskan satu asumsi yang mungkin muncul di benak kalian, yaitu bahwa Etika Budaya hanya berkaitan dengan adat istiadat, tradisi, atau perbedaan kebiasaan antar bangsa. Padahal, seperti yang telah kita bahas di seluruh materi semester ini, etika budaya mencakup dimensi yang jauh lebih luas, termasuk etika bisnis, etika konsumsi, etika komunikasi informasi, dan tanggung jawab moral dalam ekosistem ekonomi digital.</p>
+            <p><strong>Pizza</strong>, dalam konteks ini, bukan sekadar makanan. Ia adalah objek budaya yang bertransformasi dalam ekosistem digital, dan di sinilah seluruh materi kita menjadi sangat relevan.</p>
+          </div>
+        </section>
+
+        <section class="block" id="rel-1" data-accent="magenta">
+          <div class="block-head">
+            <div class="block-kicker"><span class="block-num">01</span> / Relevansi 1</div>
+            <h2 class="block-title">Topik Etika Bisnis dan Perspektif Moral dalam Laporan</h2>
+          </div>
+          <div class="block-body">
+            <p>Kalian mungkin ingat bahwa dalam materi kita tentang Fondasi Etika, ada dua aliran besar yang kita bahas secara mendalam, yaitu etika deontologis dari Immanuel Kant dan etika konsekuensialis dari John Stuart Mill.</p>
+            <p>Yang sangat menarik adalah, di dalam laporan kalian pada Bab II Sub Bab 2.3, kedua teori ini muncul secara eksplisit dan bukan sebagai hiasan, melainkan sebagai alat analisis yang sungguh-sungguh digunakan untuk membedah fenomena kepuasan konsumen pizza online.</p>
+            <p>Ketika laporan membahas bahwa pelaku usaha memiliki kewajiban moral untuk menampilkan foto produk yang akurat dan memberikan estimasi waktu pengiriman yang realistis, itu adalah aplikasi langsung dari etika deontologis Kant. Tindakan menampilkan foto yang terlalu dimanipulasi atau memberikan janji pengiriman yang tidak realistis dinilai sebagai pelanggaran moral yang bersifat prinsipil, artinya ia salah bukan karena akibatnya, melainkan karena tindakan itu sendiri bertentangan dengan kewajiban kejujuran yang bersifat mutlak.</p>
+            <p>Sementara itu, ketika laporan menyebut bahwa dengan tingkat kepuasan 81,3 persen, pelaku usaha wajib mempertahankan standar operasional agar kemanfaatan kolektif tetap terjaga, itu adalah aplikasi langsung dari Utilitarianisme. Keputusan bisnis dinilai dari dampaknya terhadap kebaikan terbanyak bagi konsumen terbanyak.</p>
+            <p>Ini adalah bukti nyata bahwa materi fondasi etika yang kita pelajari bukan teori kosong, melainkan kacamata analitis yang digunakan untuk membaca realita bisnis kuliner.</p>
+          </div>
+        </section>
+
+        <section class="block" id="rel-2" data-accent="yellow">
+          <div class="block-head">
+            <div class="block-kicker"><span class="block-num">02</span> / Relevansi 2</div>
+            <h2 class="block-title">Makanan sebagai Artefak Budaya dalam Konteks Digital</h2>
+          </div>
+          <div class="block-body">
+            <p>Dalam materi kita tentang Keanekaragaman Budaya Kuliner Dunia, kita membahas panjang lebar bahwa makanan adalah artefak budaya yang paling demokratis karena semua orang dari semua lapisan terlibat dengannya setiap hari.</p>
+            <p>Pernyataan itu kini mendapat bukti empirisnya dari data penelitian kalian sendiri. Profil responden yang didominasi oleh Generasi Z dengan rentang usia 17 sampai 25 tahun dengan pendapatan menengah ke bawah di bawah Rp5.400.000 bukanlah angka acak. Ini adalah potret sosial budaya dari konsumen digital Indonesia masa kini, khususnya di wilayah Tangerang.</p>
+            <p>Kita belajar bahwa kepuasan konsumen tidak bisa dipahami hanya dari sudut pandang teknis, melainkan harus dibaca dalam konteks sosial dan budaya penggunanya. Generasi Z yang tumbuh bersama teknologi memiliki ekspektasi budaya yang berbeda dibanding generasi sebelumnya. Mereka mengharapkan kecepatan, konsistensi visual, dan transparansi informasi bukan sekadar sebagai kenyamanan, melainkan sebagai standar moral minimum yang harus dipenuhi oleh pelaku bisnis.</p>
+            <p>Ini adalah sambungan yang sangat organik antara materi kuliah dan temuan lapangan kalian.</p>
+          </div>
+        </section>
+
+        <section class="block" id="rel-3" data-accent="cyan">
+          <div class="block-head">
+            <div class="block-kicker"><span class="block-num">03</span> / Relevansi 3</div>
+            <h2 class="block-title">Kejujuran Visual dan Etika Komunikasi</h2>
+          </div>
+          <div class="block-body">
+            <p>Salah satu sub topik yang kita bahas dalam materi Komunikasi Lintas Budaya adalah bahwa kejujuran dalam representasi, baik representasi nama, gambar, maupun deskripsi, adalah bagian dari etika yang tidak bisa dipisahkan dari praktik kuliner profesional.</p>
+            <p>Dalam laporan kalian, ditemukan fakta yang sangat kuat bahwa 43,8 persen responden memperhatikan gambar produk sebagai pertimbangan utama sebelum memesan, dan bahwa ketidaksesuaian antara foto di aplikasi dengan produk nyata menjadi salah satu pemicu utama kekecewaan konsumen. Laporan ini bahkan menggunakan istilah <strong>Visual Integrity</strong> sebagai terminologi untuk menggambarkan persoalan tersebut.</p>
+            <p>Dalam bahasa materi etika kita, ini adalah isu kejujuran dalam komunikasi kuliner, yang langsung berkaitan dengan tanggung jawab moral pelaku bisnis. Ketika sebuah restoran menampilkan foto pizza dengan keju yang meleleh sempurna, namun produk yang diterima konsumen sudah dingin dan tidak menarik, itu bukan sekadar masalah operasional, melainkan sebuah kegagalan etika yang terukur dan berdampak nyata.</p>
+          </div>
+        </section>
+
+        <section class="block" id="rel-4" data-accent="magenta">
+          <div class="block-head">
+            <div class="block-kicker"><span class="block-num">04</span> / Relevansi 4</div>
+            <h2 class="block-title">Tanggung Jawab Rantai Produksi dan Sustainability</h2>
+          </div>
+          <div class="block-body">
+            <p>Kalian mungkin bertanya apa hubungannya materi tentang <em>farm to fork</em> dan keberlanjutan dengan penelitian kepuasan konsumen pizza online. Jawabannya lebih dalam dari yang terlihat.</p>
+            <p>Dalam laporan kalian, ada temuan yang sangat kritis tentang <strong>Thermal Management</strong>, yaitu masalah suhu pizza yang tidak terjaga selama proses pengiriman. Rekomendasi yang kalian berikan pun menyebutkan perlunya investasi pada teknologi pengemasan retensi termal.</p>
+            <p>Ini adalah titik temu yang elegan dengan materi etika kita. Ketika kita membicarakan tanggung jawab sepanjang rantai produksi, kita tidak hanya berbicara tentang ladang pertanian. Dalam konteks kuliner digital, rantai produksi itu memanjang hingga ke proses pengiriman, di mana kualitas produk harus dijaga secara etis sampai ke tangan konsumen terakhir.</p>
+            <p>Pelaku usaha yang tidak berinvestasi dalam sistem pengemasan yang memadai tidak hanya gagal secara operasional, tetapi juga gagal secara etis karena tidak memenuhi janjinya kepada konsumen.</p>
+          </div>
+        </section>
+
+        <section class="block" id="rel-5" data-accent="yellow">
+          <div class="block-head">
+            <div class="block-kicker"><span class="block-num">05</span> / Relevansi 5</div>
+            <h2 class="block-title">Etika Profesional dan Brand Loyalty Erosion</h2>
+          </div>
+          <div class="block-body">
+            <p>Materi kita tentang Etika Profesional dalam Karier Kuliner membahas bahwa reputasi adalah aset terbesar seorang profesional kuliner, dan bahwa integritas tidak bisa dibangun sekali kemudian dibiarkan.</p>
+            <p>Temuan lapangan kalian memperlihatkan dimensi kuantitatif dari prinsip tersebut. Ketika 37,5 persen konsumen yang kecewa memilih untuk tidak membeli lagi, dan 15,6 persen lainnya memberikan ulasan negatif secara publik, itu adalah bukti empiris dari apa yang dalam etika profesional disebut sebagai erosi kepercayaan yang bersifat kumulatif.</p>
+            <p>Satu kegagalan dalam memenuhi janji mungkin kecil dampaknya, tetapi kegagalan yang berulang dan tidak ditangani secara serius akan menggerus loyalitas konsumen secara permanen. Laporan kalian menggunakan istilah <strong>Brand Loyalty Erosion</strong> yang, bila dilihat dari perspektif materi kita, sesungguhnya adalah istilah bisnis untuk sebuah fenomena yang jauh lebih dalam, yaitu runtuhnya kepercayaan konsumen terhadap integritas moral sebuah merek.</p>
+          </div>
+        </section>
+
+        <section class="block" id="rel-6" data-accent="cyan">
+          <div class="block-head">
+            <div class="block-kicker"><span class="block-num">06</span> / Relevansi 6</div>
+            <h2 class="block-title">Swing Consumers sebagai Fenomena Etika</h2>
+          </div>
+          <div class="block-body">
+            <p>Ini adalah temuan yang paling menarik secara konseptual dalam laporan kalian, dan yang paling kuat relevansinya dengan materi etika. Kalian menemukan bahwa 50 persen responden berada dalam posisi seimbang antara puas dan kecewa, dan kalian menyebut kelompok ini sebagai <strong>Swing Consumers</strong> yang rentan berpindah loyalitas kapan saja.</p>
+            <p>Dalam bahasa materi etika kita, kelompok ini sesungguhnya adalah representasi dari konsumen yang belum menemukan merek atau layanan yang memiliki integritas etis yang konsisten. Mereka belum bisa memutuskan loyalitas karena pengalaman mereka terus berfluktuasi antara harapan yang terpenuhi dan harapan yang dilanggar.</p>
+            <p>Ini menghubungkan langsung dengan pembahasan kita tentang <em>cultural appropriation</em> versus <em>cultural appreciation</em> dalam konteks yang lebih luas. Pelaku bisnis yang menggunakan citra dan janji tertentu untuk menarik konsumen, namun tidak mampu memenuhi janji tersebut secara konsisten, pada dasarnya sedang melakukan bentuk ketidakjujuran yang terstruktur terhadap pasar.</p>
+          </div>
+        </section>
+
+        <section class="block" id="kesimpulan" data-accent="magenta">
+          <div class="block-head">
+            <div class="block-kicker"><span class="block-num">OUTRO</span> / Kesimpulan</div>
+            <h2 class="block-title">Tugas Ini adalah Materi yang Dipraktikkan</h2>
+          </div>
+          <div class="block-body">
+            <p>Bila disimpulkan dalam satu kalimat yang tajam, maka inilah inti dari relevansinya: tugas proposal dan laporan ini bukan hanya latihan penelitian, melainkan sebuah praktik nyata dari seluruh kerangka etika yang telah dipelajari sepanjang semester.</p>
+            <p>Kalian telah mengambil objek penelitian yang tampak sederhana, yaitu pizza yang dipesan lewat aplikasi, lalu membedahnya menggunakan perspektif etika bisnis, tanggung jawab moral, kejujuran komunikasi, dan integritas profesional. Dan hasilnya adalah sebuah laporan yang tidak sekadar menyajikan angka-angka, tetapi yang mampu memberikan rekomendasi moral kepada industri.</p>
+            <p>Itulah yang dimaksud dengan seorang profesional kuliner yang berpendidikan lengkap. Ia tidak hanya bisa memasak atau mengelola bisnis. Ia mampu membaca, menganalisis, dan memberikan kontribusi nyata terhadap ekosistem kuliner secara etis dan bertanggung jawab.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>
+      <div class="footer-logo">PORTO<span>FOLIO</span> INDIVIDU</div>
+      <p>Universitas Pradita — Culinary Art D3</p>
+    </div>
+    <p>© 2025 <span>Relevansi Matkul</span> // Etika &amp; Budaya</p>
+  </footer>
+
+  <script>
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    (function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    })();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+    });
+
+    // Nav counter
+    let count = 0;
+    setInterval(() => {
+      count = (count + 1) % 1000;
+      const c = document.querySelector('.nav-counter');
+      if (c) c.innerHTML = `SYS_${String(count).padStart(3,'0')}<span class="blink">_</span>`;
+    }, 200);
+  </script>
+</body>
+</html>

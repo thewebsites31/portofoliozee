@@ -1,0 +1,2094 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PORTOFOLIO INDIVIDU — Zeisyah Ananda</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ===== CUSTOM CURSOR ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { cursor: none; scroll-behavior: smooth; }
+
+  .cursor {
+    width: 12px; height: 12px;
+    background: #ff2d78;
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 99999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid #ff2d78;
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring.hovered {
+    width: 60px; height: 60px;
+    background: rgba(255, 45, 120, 0.1);
+    border-color: #00f5ff;
+  }
+
+  /* ===== BASE ===== */
+  :root {
+    --magenta: #ff2d78;
+    --cyan: #00f5ff;
+    --yellow: #ffe600;
+    --dark: #070710;
+    --darker: #04040a;
+    --grid: rgba(255, 45, 120, 0.08);
+    --text: #e8e8f0;
+    --muted: #6b6b8a;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-body: 'Rajdhani', sans-serif;
+    --font-ui: 'Orbitron', sans-serif;
+  }
+
+  body {
+    background: var(--darker);
+    color: var(--text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ===== NOISE OVERLAY ===== */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9997; opacity: 0.5;
+  }
+
+  /* ===== GRID BG ===== */
+  .grid-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .grid-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 40%, rgba(255,45,120,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(0,245,255,0.06) 0%, transparent 50%);
+  }
+
+  /* ===== SCANLINES ===== */
+  .scanlines {
+    position: fixed; inset: 0; pointer-events: none; z-index: 9996;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 1000;
+    padding: 0 40px;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(255,45,120,0.2);
+    background: rgba(4,4,10,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: var(--font-ui);
+    font-size: 13px; font-weight: 900;
+    color: var(--magenta);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px var(--magenta);
+  }
+  .nav-logo span { color: var(--cyan); }
+
+  .nav-links {
+    display: flex; gap: 32px; list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--muted);
+    text-decoration: none; letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
+    background: var(--magenta);
+    transform: scaleX(0); transition: transform 0.2s;
+  }
+  .nav-links a:hover { color: var(--magenta); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .nav-links a.active { color: var(--cyan); }
+
+  .nav-counter {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  /* ===== HERO ===== */
+  #hero {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 80px 60px 40px;
+    overflow: hidden;
+  }
+
+  .hero-content { max-width: 700px; }
+
+  .hero-tag {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--cyan);
+    letter-spacing: 4px; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.8s ease both;
+  }
+  .hero-tag::before {
+    content: ''; width: 40px; height: 1px; background: var(--cyan);
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 10vw, 140px);
+    line-height: 0.9;
+    color: #fff;
+    text-shadow: 0 0 60px rgba(255,45,120,0.3);
+    animation: fadeInUp 0.8s 0.1s ease both;
+    position: relative;
+  }
+  .hero-title .accent { color: var(--magenta); display: block; }
+  .hero-title .accent2 { color: var(--cyan); font-size: 0.4em; display: block; font-family: var(--font-mono); letter-spacing: 8px; margin-top: 12px; }
+
+  .hero-subtitle {
+    font-family: var(--font-body);
+    font-size: 16px; font-weight: 300;
+    color: var(--muted); line-height: 1.8;
+    margin: 28px 0;
+    max-width: 480px;
+    animation: fadeInUp 0.8s 0.2s ease both;
+  }
+
+  .hero-cta {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    margin-top: 22px;
+    animation: fadeInUp 0.8s 0.3s ease both;
+  }
+
+  .btn-primary {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 3px;
+    padding: 14px 32px;
+    background: var(--magenta);
+    color: #fff; border: none;
+    text-decoration: none;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    background: #fff; color: var(--darker);
+    box-shadow: 0 0 30px rgba(255,45,120,0.6);
+  }
+
+  .btn-outline {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 3px;
+    padding: 13px 32px;
+    background: transparent;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    text-decoration: none; text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover {
+    background: var(--cyan); color: var(--darker);
+    box-shadow: 0 0 30px rgba(0,245,255,0.4);
+  }
+
+  /* Hero deco */
+  .hero-deco {
+    position: absolute; right: -60px; top: 50%;
+    transform: translateY(-50%);
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,45,120,0.15) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  .hero-deco2 {
+    position: absolute; right: 100px; top: 30%;
+    width: 2px; height: 300px;
+    background: linear-gradient(to bottom, transparent, var(--magenta), transparent);
+    animation: lineAnim 3s ease-in-out infinite;
+  }
+  .hero-lines {
+    position: absolute; right: 60px; top: 60px; bottom: 60px; left: 50%;
+    border: 1px solid rgba(255,45,120,0.15);
+    border-radius: 2px;
+    pointer-events: none;
+  }
+
+  /* Floating numbers */
+  .float-num {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 10px; color: rgba(255,45,120,0.3);
+    letter-spacing: 2px; pointer-events: none;
+    animation: floatNum 6s ease-in-out infinite;
+  }
+
+  /* ===== SECTIONS ===== */
+  section {
+    position: relative; z-index: 1;
+    padding: 100px 60px;
+  }
+
+  .section-header {
+    display: flex; align-items: baseline; gap: 20px;
+    margin-bottom: 60px;
+  }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--magenta);
+    letter-spacing: 3px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 72px);
+    color: #fff; letter-spacing: 2px;
+  }
+  .section-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, rgba(255,45,120,0.4), transparent);
+    margin-left: 20px;
+  }
+
+  /* ===== BLOG SECTION ===== */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+  }
+  .blog-featured {
+    background: rgba(255,45,120,0.04);
+    border: 1px solid rgba(255,45,120,0.15);
+    padding: 40px;
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .blog-featured::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, var(--magenta), var(--cyan));
+  }
+  .blog-featured:hover {
+    border-color: rgba(255,45,120,0.4);
+    background: rgba(255,45,120,0.07);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(255,45,120,0.1);
+  }
+
+  .blog-tag {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--magenta);
+    letter-spacing: 3px; text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 20px;
+  }
+  .blog-tag::before { content: '//'; color: var(--cyan); }
+
+  .blog-post-title {
+    font-family: var(--font-display);
+    font-size: 36px; color: #fff;
+    line-height: 1.1; margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+  .blog-excerpt {
+    font-size: 14px; color: var(--muted);
+    line-height: 1.8; margin-bottom: 28px;
+  }
+  .blog-meta {
+    display: flex; gap: 24px; align-items: center;
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 1px;
+  }
+  .blog-meta .date { color: var(--cyan); }
+
+  .blog-sidebar { display: flex; flex-direction: column; gap: 16px; }
+
+  .blog-card-sm {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 24px;
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .blog-card-sm::after {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: var(--magenta); transform: scaleY(0);
+    transition: transform 0.3s; transform-origin: top;
+  }
+  .blog-card-sm:hover::after { transform: scaleY(1); }
+  .blog-card-sm:hover {
+    background: rgba(255,45,120,0.04);
+    border-color: rgba(255,45,120,0.2);
+    transform: translateX(4px);
+  }
+  .blog-card-sm .blog-post-title { font-size: 18px; margin-bottom: 8px; }
+  .blog-card-sm .blog-excerpt { font-size: 12px; margin-bottom: 12px; }
+
+  /* Read more link */
+  .read-more {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--magenta);
+    text-decoration: none; letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+    transition: gap 0.2s;
+  }
+  .read-more::after { content: '→'; }
+  .read-more:hover { gap: 14px; }
+
+  /* ===== TUGAS KELOMPOK ===== */
+  #tugas { background: rgba(0,245,255,0.02); }
+
+  .tugas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .tugas-card {
+    border: 1px solid rgba(0,245,255,0.1);
+    padding: 32px;
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+    background: rgba(0,245,255,0.02);
+    height: 100%;
+  }
+  .tugas-grid a { display: block; }
+  .tugas-card::before {
+    content: attr(data-num);
+    position: absolute; top: -10px; right: 20px;
+    font-family: var(--font-display);
+    font-size: 100px; color: rgba(0,245,255,0.04);
+    line-height: 1;
+  }
+  .tugas-card:hover {
+    border-color: rgba(0,245,255,0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,245,255,0.08);
+  }
+
+  .tugas-status {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 9px; letter-spacing: 2px;
+    padding: 4px 10px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .status-done { background: rgba(0,245,255,0.1); color: var(--cyan); border: 1px solid var(--cyan); }
+  .status-wip { background: rgba(255,230,0,0.1); color: var(--yellow); border: 1px solid var(--yellow); }
+  .status-todo { background: rgba(255,45,120,0.1); color: var(--magenta); border: 1px solid var(--magenta); }
+
+  .tugas-title {
+    font-family: var(--font-ui);
+    font-size: 16px; font-weight: 700;
+    color: #fff; margin-bottom: 12px; letter-spacing: 1px;
+  }
+  .tugas-desc {
+    font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 20px;
+  }
+  .tugas-members {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .member-chip {
+    font-family: var(--font-mono);
+    font-size: 9px; color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 3px 8px; letter-spacing: 1px;
+  }
+
+  /* ===== SINGLE PROFILE CARD ===== */
+  .profile-card-single {
+    position: relative;
+    border: 1px solid rgba(255,45,120,0.2);
+    padding: 56px 48px;
+    text-align: center;
+    background: rgba(255,45,120,0.03);
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+  .profile-card-single::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, var(--magenta), var(--cyan), var(--magenta));
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+  }
+  @keyframes shimmer { from { background-position: 200% center; } to { background-position: -200% center; } }
+
+  .profile-card-single:hover {
+    border-color: var(--magenta);
+    transform: translateY(-8px);
+    box-shadow: 0 0 60px rgba(255,45,120,0.15), 0 30px 80px rgba(0,0,0,0.4);
+    background: rgba(255,45,120,0.06);
+  }
+
+  /* Deco rings on the card */
+  .pc-ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid transparent;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .pc-ring1 {
+    width: 300px; height: 300px;
+    border-top-color: rgba(255,45,120,0.06);
+    border-right-color: rgba(255,45,120,0.03);
+    animation: spin1 12s linear infinite;
+  }
+  .pc-ring2 {
+    width: 420px; height: 420px;
+    border-bottom-color: rgba(0,245,255,0.04);
+    animation: spin2 18s linear infinite;
+  }
+
+  .pc-avatar {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--magenta) 0%, #7b2fff 50%, var(--cyan) 100%);
+    margin: 0 auto 28px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 44px; color: #fff;
+    box-shadow: 0 0 40px rgba(255,45,120,0.3);
+    position: relative; z-index: 1;
+  }
+
+  .pc-name {
+    font-family: var(--font-display);
+    font-size: 36px; color: #fff;
+    letter-spacing: 3px; margin-bottom: 8px;
+    text-shadow: 0 0 20px rgba(255,45,120,0.2);
+    position: relative; z-index: 1;
+  }
+  .pc-nim {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--cyan);
+    letter-spacing: 3px; margin-bottom: 14px;
+    position: relative; z-index: 1;
+  }
+  .pc-prodi {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--magenta);
+    border: 1px solid rgba(255,45,120,0.35);
+    padding: 5px 14px; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 8px;
+    position: relative; z-index: 1;
+  }
+  .pc-univ {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 1px; margin-bottom: 28px; display: block;
+    position: relative; z-index: 1;
+  }
+  .pc-tags {
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    margin-bottom: 32px; position: relative; z-index: 1;
+  }
+  .pc-tag {
+    font-family: var(--font-mono);
+    font-size: 9px; color: var(--cyan);
+    border: 1px solid rgba(0,245,255,0.2);
+    padding: 5px 12px; letter-spacing: 1px;
+    background: rgba(0,245,255,0.04);
+  }
+  .pc-cta {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--magenta);
+    letter-spacing: 2px; text-transform: uppercase;
+    position: relative; z-index: 1;
+    transition: gap 0.3s;
+  }
+  .pc-arrow { transition: transform 0.3s; }
+  .profile-card-single:hover .pc-cta { gap: 16px; }
+  .profile-card-single:hover .pc-arrow { transform: translateX(4px); }
+
+  /* ===== PROFILE OLD STYLES (kept for CSS ref) ===== */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .profile-card {
+    border: 1px solid rgba(255,45,120,0.1);
+    padding: 40px 28px; text-align: center;
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+    background: rgba(255,45,120,0.02);
+  }
+  .profile-card:hover {
+    border-color: var(--magenta);
+    transform: translateY(-8px);
+    box-shadow: 0 0 40px rgba(255,45,120,0.15), inset 0 0 40px rgba(255,45,120,0.05);
+  }
+
+  .profile-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--magenta), var(--cyan));
+    margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 28px; color: #fff;
+    position: relative;
+  }
+  .profile-avatar::after {
+    content: '';
+    position: absolute; inset: -3px;
+    border-radius: 50%;
+    border: 1px solid var(--magenta);
+    animation: spinRing 8s linear infinite;
+    border-top-color: transparent; border-right-color: transparent;
+  }
+
+  .profile-name {
+    font-family: var(--font-ui);
+    font-size: 14px; font-weight: 700;
+    color: #fff; letter-spacing: 1px; margin-bottom: 6px;
+  }
+  .profile-nim {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--cyan); letter-spacing: 2px; margin-bottom: 12px;
+  }
+  .profile-role {
+    font-size: 12px; color: var(--muted); margin-bottom: 20px;
+  }
+  .profile-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .profile-tag {
+    font-family: var(--font-mono);
+    font-size: 9px; color: var(--magenta);
+    border: 1px solid rgba(255,45,120,0.3);
+    padding: 3px 8px; letter-spacing: 1px;
+  }
+
+  /* ===== MATA KULIAH ===== */
+  #matkul { background: rgba(255,230,0,0.01); }
+
+  .matkul-layout {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+  }
+
+  .matkul-info h3 {
+    font-family: var(--font-display);
+    font-size: 48px; color: var(--yellow);
+    margin-bottom: 20px; line-height: 1;
+  }
+  .matkul-info p {
+    font-size: 15px; color: var(--muted); line-height: 1.9; margin-bottom: 24px;
+  }
+
+  .info-rows { display: flex; flex-direction: column; gap: 0; }
+  .info-row {
+    display: grid; grid-template-columns: 140px 1fr;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+  }
+  .info-row .label {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--cyan); letter-spacing: 2px; text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .info-row .value { color: var(--text); }
+
+  .matkul-visual {
+    position: relative; height: 400px;
+  }
+  .hexagon-grid {
+    display: grid; grid-template-columns: repeat(4, 80px);
+    gap: 8px; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+  }
+  .hex {
+    width: 80px; height: 80px;
+    background: rgba(255,45,120,0.05);
+    border: 1px solid rgba(255,45,120,0.15);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 9px; color: var(--magenta);
+    letter-spacing: 1px; text-align: center; line-height: 1.2;
+    transition: all 0.3s;
+    animation: hexPulse 3s ease-in-out infinite;
+  }
+  .hex:hover {
+    background: rgba(255,45,120,0.2);
+    border-color: var(--magenta);
+    box-shadow: 0 0 20px rgba(255,45,120,0.3);
+  }
+  .hex:nth-child(even) { animation-delay: 1.5s; background: rgba(0,245,255,0.05); border-color: rgba(0,245,255,0.15); color: var(--cyan); }
+
+  /* ===== MATERI ===== */
+  .materi-layout {
+    display: flex; flex-direction: column; gap: 20px;
+  }
+
+  .materi-item {
+    display: grid; grid-template-columns: 60px 1fr auto;
+    gap: 24px; align-items: center;
+    padding: 28px;
+    border: 1px solid rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.01);
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .materi-item::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+    background: rgba(255,45,120,0.06);
+    transition: width 0.4s;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .materi-item > * { position: relative; z-index: 1; }
+  .materi-item:hover::before { width: 100%; }
+  .materi-item:hover {
+    border-color: rgba(255,45,120,0.25);
+    transform: translateX(8px);
+  }
+
+  .materi-num {
+    font-family: var(--font-display);
+    font-size: 42px; color: rgba(255,45,120,0.2);
+    line-height: 1;
+  }
+  .materi-item:hover .materi-num { color: rgba(255,45,120,0.5); }
+
+  .materi-body h4 {
+    font-family: var(--font-ui);
+    font-size: 15px; font-weight: 700;
+    color: #fff; margin-bottom: 6px; letter-spacing: 0.5px;
+  }
+  .materi-body p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .materi-badge {
+    font-family: var(--font-mono);
+    font-size: 9px; padding: 6px 12px;
+    border: 1px solid; letter-spacing: 2px; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .materi-link {
+    cursor: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .materi-link:hover {
+    background: rgba(255,45,120,0.12);
+    box-shadow: 0 0 16px rgba(255,45,120,0.2);
+    transform: translateX(4px);
+  }
+
+  /* ===== RELEVANSI ===== */
+  #relevansi { background: rgba(0,245,255,0.015); }
+
+  .relevansi-cards {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+  }
+
+  .rel-card {
+    padding: 36px;
+    border: 1px solid rgba(255,45,120,0.1);
+    background: linear-gradient(135deg, rgba(255,45,120,0.04), rgba(0,245,255,0.02));
+    position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .rel-card:hover {
+    border-color: rgba(0,245,255,0.3);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .rel-icon {
+    font-size: 32px; margin-bottom: 20px;
+    display: block;
+  }
+  .rel-card h3 {
+    font-family: var(--font-ui);
+    font-size: 16px; font-weight: 700;
+    color: var(--cyan); letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+  .rel-card p { font-size: 14px; color: var(--muted); line-height: 1.8; }
+
+  .rel-card .corner {
+    position: absolute; bottom: 16px; right: 16px;
+    width: 20px; height: 20px;
+    border-right: 1px solid rgba(0,245,255,0.3);
+    border-bottom: 1px solid rgba(0,245,255,0.3);
+  }
+
+  .rel-read-more {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--cyan);
+    border: 1px solid rgba(0,245,255,0.25);
+    padding: 8px 16px;
+    margin-top: 16px;
+    transition: all 0.2s;
+    position: relative; z-index: 1;
+  }
+  .rel-read-more:hover {
+    background: rgba(0,245,255,0.08);
+    border-color: var(--cyan);
+    box-shadow: 0 0 16px rgba(0,245,255,0.15);
+    gap: 14px;
+  }
+
+  /* ===== EDIT MODAL ===== */
+  .edit-fab {
+    position: fixed; bottom: 40px; right: 40px;
+    width: 52px; height: 52px;
+    background: var(--magenta);
+    border: none; border-radius: 0;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; z-index: 2000;
+    box-shadow: 0 0 30px rgba(255,45,120,0.4);
+    transition: all 0.2s;
+  }
+  .edit-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 50px rgba(255,45,120,0.6);
+  }
+
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 3000;
+    background: rgba(4,4,10,0.9);
+    backdrop-filter: blur(8px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--dark);
+    border: 1px solid rgba(255,45,120,0.3);
+    width: 90%; max-width: 700px; max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 48px;
+  }
+  .modal::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, var(--magenta), var(--cyan));
+  }
+
+  .modal-title {
+    font-family: var(--font-display);
+    font-size: 42px; color: #fff;
+    margin-bottom: 8px; letter-spacing: 2px;
+  }
+  .modal-sub {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 2px; margin-bottom: 36px;
+  }
+
+  .form-group { margin-bottom: 24px; }
+  .form-group label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--cyan);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text);
+    font-family: var(--font-body); font-size: 14px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--magenta);
+    box-shadow: 0 0 0 1px rgba(255,45,120,0.3);
+  }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-group select { appearance: none; }
+
+  .modal-actions {
+    display: flex; gap: 16px; justify-content: flex-end;
+    margin-top: 36px;
+  }
+
+  .btn-close-modal {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 2px;
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.1);
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .btn-close-modal:hover { color: var(--text); border-color: rgba(255,255,255,0.3); }
+
+  .btn-save {
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 2px;
+    padding: 12px 28px;
+    background: var(--magenta); color: #fff;
+    border: none;
+    text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    transition: all 0.2s;
+  }
+  .btn-save:hover { background: #fff; color: var(--darker); }
+
+  /* ===== MATKUL PREVIEW CARD ===== */
+  .matkul-preview-card {
+    position: relative;
+    border: 1px solid rgba(255,230,0,0.2);
+    background: linear-gradient(135deg, rgba(255,230,0,0.04), rgba(255,45,120,0.03));
+    padding: 40px 48px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .matkul-preview-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, var(--yellow), var(--magenta), transparent);
+  }
+  .matkul-preview-card:hover {
+    border-color: rgba(255,230,0,0.4);
+    background: linear-gradient(135deg, rgba(255,230,0,0.07), rgba(255,45,120,0.05));
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(255,230,0,0.06);
+  }
+  .mpc-inner { position: relative; z-index: 1; max-width: 680px; }
+  .mpc-tag {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--yellow);
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .mpc-text {
+    font-size: 17px; color: var(--text);
+    line-height: 1.85; margin-bottom: 32px;
+    font-weight: 400; font-style: italic;
+    border-left: 2px solid rgba(255,230,0,0.3);
+    padding-left: 24px;
+  }
+  .mpc-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--yellow);
+    border: 1px solid rgba(255,230,0,0.35);
+    padding: 12px 24px;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: all 0.25s;
+  }
+  .mpc-btn:hover {
+    background: rgba(255,230,0,0.1);
+    border-color: var(--yellow);
+    box-shadow: 0 0 24px rgba(255,230,0,0.15);
+    gap: 16px;
+  }
+  .mpc-arrow { transition: transform 0.25s; }
+  .mpc-btn:hover .mpc-arrow { transform: translateX(4px); }
+  .mpc-deco {
+    position: absolute; right: -30px; top: 50%;
+    transform: translateY(-50%);
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,230,0,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ===== ARTICLE OVERLAY ===== */
+  .art-overlay {
+    position: fixed; inset: 0; z-index: 5000;
+    display: flex; align-items: stretch;
+    pointer-events: none; opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .art-overlay.open {
+    pointer-events: all; opacity: 1;
+  }
+  .art-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(4,4,10,0.7);
+    backdrop-filter: blur(6px);
+  }
+  .art-panel {
+    position: relative; z-index: 1;
+    margin-left: auto;
+    width: 100%; max-width: 860px;
+    background: var(--darker);
+    border-left: 1px solid rgba(255,230,0,0.2);
+    overflow-y: auto;
+    transform: translateX(60px);
+    transition: transform 0.38s cubic-bezier(0.22,1,0.36,1);
+    display: flex; flex-direction: column;
+  }
+  .art-overlay.open .art-panel {
+    transform: translateX(0);
+  }
+  .art-panel::before {
+    content: '';
+    position: sticky; top: 0; left: 0; right: 0; height: 2px;
+    display: block; flex-shrink: 0;
+    background: linear-gradient(to right, var(--yellow), var(--magenta), var(--cyan));
+    z-index: 2;
+  }
+  /* grid bg inside panel */
+  .art-panel-bg {
+    position: fixed; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,230,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,230,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .art-inner {
+    position: relative; z-index: 1;
+    padding: 72px 64px 100px;
+    flex: 1;
+  }
+  .art-close {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: 3px;
+    color: var(--muted); text-decoration: none;
+    text-transform: uppercase; margin-bottom: 56px;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.02);
+    transition: all 0.2s;
+    cursor: none;
+  }
+  .art-close:hover { color: var(--yellow); border-color: var(--yellow); }
+  .art-close::before { content: '←'; }
+
+  .art-page-tag {
+    font-family: var(--font-mono);
+    font-size: 11px; color: var(--yellow);
+    letter-spacing: 4px; text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .art-page-tag::before { content: ''; width: 40px; height: 1px; background: var(--yellow); }
+  .art-page-label {
+    font-family: var(--font-display);
+    font-size: 100px; color: rgba(255,230,0,0.07);
+    line-height: 1; margin-bottom: -16px; user-select: none;
+  }
+  .art-h1 {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 76px);
+    color: #fff; letter-spacing: 2px;
+    line-height: 1.05; margin-bottom: 40px;
+    text-shadow: 0 0 60px rgba(255,230,0,0.2);
+  }
+  .art-h1::after {
+    content: '';
+    display: block; width: 80px; height: 2px;
+    background: linear-gradient(to right, var(--yellow), transparent);
+    margin-top: 20px;
+  }
+  .art-pullquote {
+    border-left: 3px solid var(--yellow);
+    padding: 20px 28px;
+    margin: 0 0 40px;
+    background: rgba(255,230,0,0.04);
+    font-size: 17px; font-style: italic;
+    color: var(--text); line-height: 1.85;
+  }
+  .art-deco-bar {
+    width: 100%; height: 1px;
+    background: linear-gradient(to right, var(--yellow), transparent);
+    margin: 44px 0; opacity: 0.35;
+  }
+  .art-body { border-left: 1px solid rgba(255,230,0,0.18); padding-left: 32px; }
+  .art-body p {
+    font-size: 16px; color: #b0b0c8;
+    line-height: 1.9; margin-bottom: 28px; font-weight: 400;
+  }
+  .art-body em { color: var(--yellow); font-style: italic; }
+  .art-body strong { color: #fff; font-weight: 700; }
+  .art-body h3 {
+    font-family: var(--font-ui);
+    font-size: 13px; font-weight: 700;
+    color: var(--yellow); letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 14px; margin-top: 44px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .art-body h3::before {
+    content: '//'; font-family: var(--font-mono);
+    color: var(--muted); font-size: 11px; flex-shrink: 0;
+  }
+  .art-footnote {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 2px; text-align: center;
+    padding-top: 60px; border-top: 1px solid rgba(255,255,255,0.05);
+    margin-top: 80px;
+  }
+
+  /* variant accent per panel type */
+  .art-panel.accent-cyan { border-left-color: rgba(0,245,255,0.2); }
+  .art-panel.accent-cyan .art-page-tag,
+  .art-panel.accent-cyan .art-body h3 { color: var(--cyan); }
+  .art-panel.accent-cyan .art-page-tag::before,
+  .art-panel.accent-cyan .art-h1::after,
+  .art-panel.accent-cyan .art-deco-bar { background: linear-gradient(to right, var(--cyan), transparent); }
+  .art-panel.accent-cyan .art-pullquote { border-left-color: var(--cyan); background: rgba(0,245,255,0.04); }
+  .art-panel.accent-cyan .art-body { border-left-color: rgba(0,245,255,0.18); }
+  .art-panel.accent-cyan .art-close:hover { color: var(--cyan); border-color: var(--cyan); }
+  .art-panel.accent-cyan .art-h1 { text-shadow: 0 0 60px rgba(0,245,255,0.2); }
+
+  .art-panel.accent-magenta { border-left-color: rgba(255,45,120,0.2); }
+  .art-panel.accent-magenta .art-page-tag,
+  .art-panel.accent-magenta .art-body h3 { color: var(--magenta); }
+  .art-panel.accent-magenta .art-page-tag::before,
+  .art-panel.accent-magenta .art-h1::after,
+  .art-panel.accent-magenta .art-deco-bar { background: linear-gradient(to right, var(--magenta), transparent); }
+  .art-panel.accent-magenta .art-pullquote { border-left-color: var(--magenta); background: rgba(255,45,120,0.04); }
+  .art-panel.accent-magenta .art-body { border-left-color: rgba(255,45,120,0.18); }
+  .art-panel.accent-magenta .art-close:hover { color: var(--magenta); border-color: var(--magenta); }
+  .art-panel.accent-magenta .art-h1 { text-shadow: 0 0 60px rgba(255,45,120,0.2); }
+
+  /* ===== FOOTER ===== */
+  footer {
+    position: relative; z-index: 1;
+    padding: 60px;
+    border-top: 1px solid rgba(255,45,120,0.15);
+    background: rgba(4,4,10,0.8);
+  }
+  .footer-inner {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px;
+  }
+  .footer-left .footer-logo {
+    font-family: var(--font-ui);
+    font-size: 12px; color: var(--magenta);
+    letter-spacing: 3px; font-weight: 900;
+    text-shadow: 0 0 10px var(--magenta);
+    margin-bottom: 8px;
+  }
+  .footer-left p {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--muted); letter-spacing: 1px;
+  }
+  .footer-right {
+    font-family: var(--font-mono);
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 2px; text-align: right;
+  }
+  .footer-right span { color: var(--magenta); }
+
+  /* ===== GLITCH EFFECT ===== */
+  .glitch {
+    position: relative;
+    animation: glitch 4s infinite;
+  }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; top: 0; left: 0; right: 0;
+    overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+  }
+  .glitch::before {
+    color: var(--cyan);
+    animation: glitchTop 4s infinite;
+    transform: translateX(-2px);
+  }
+  .glitch::after {
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    color: var(--magenta);
+    animation: glitchBot 4s infinite;
+    transform: translateX(2px);
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--darker); }
+  ::-webkit-scrollbar-thumb { background: var(--magenta); border-radius: 0; }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed; bottom: 100px; right: 40px;
+    background: var(--dark); border: 1px solid var(--cyan);
+    color: var(--cyan);
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 2px; padding: 14px 24px;
+    z-index: 9999;
+    transform: translateY(20px); opacity: 0;
+    transition: all 0.3s;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { transform: translateY(-50%) scale(1); opacity: 0.6; }
+    50% { transform: translateY(-50%) scale(1.1); opacity: 1; }
+  }
+  @keyframes lineAnim {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+  @keyframes glitch {
+    0%, 90%, 100% { transform: none; }
+    92% { transform: skew(-1deg); }
+    94% { transform: skew(1deg); }
+  }
+  @keyframes glitchTop {
+    0%, 90%, 100% { transform: translateX(-2px); opacity: 0; }
+    92% { transform: translateX(2px); opacity: 0.8; }
+  }
+  @keyframes glitchBot {
+    0%, 90%, 100% { transform: translateX(2px); opacity: 0; }
+    93% { transform: translateX(-2px); opacity: 0.8; }
+  }
+  @keyframes spinRing {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes hexPulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  @keyframes floatNum {
+    0%, 100% { transform: translateY(0); opacity: 0.3; }
+    50% { transform: translateY(-20px); opacity: 0.7; }
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  .blink { animation: blink 1s infinite; }
+
+  /* Intersection Observer reveal */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: all 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 80px 20px; }
+    #hero { padding: 80px 20px 40px; }
+    .blog-grid, .matkul-layout { grid-template-columns: 1fr; }
+    .hero-lines, .hero-deco { display: none; }
+    .hero-title { font-size: 60px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Background -->
+<div class="grid-bg"></div>
+<div class="scanlines"></div>
+
+<!-- Toast -->
+<div class="toast" id="toast">// PERUBAHAN DISIMPAN</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PORTO<span>FOLIO</span> INDIVIDU</div>
+  <ul class="nav-links">
+    <li><a href="#hero" class="active">Home</a></li>
+    <li><a href="#tugas">Tugas</a></li>
+    <li><a href="#profile">Profil</a></li>
+    <li><a href="#matkul">Matkul</a></li>
+    <li><a href="#materi">Materi</a></li>
+    <li><a href="#relevansi">Relevansi</a></li>
+  </ul>
+  <div class="nav-counter">SYS_<span class="blink">_</span></div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-lines"></div>
+  <div class="hero-deco"></div>
+  <div class="hero-deco2"></div>
+  <div class="float-num" style="top:20%;left:55%;animation-delay:0s">01 / 2024</div>
+  <div class="float-num" style="top:60%;left:65%;animation-delay:2s">KELOMPOK_06</div>
+  <div class="float-num" style="top:35%;left:80%;animation-delay:4s">AKTIF</div>
+
+  <div class="hero-content">
+    <div class="hero-tag" id="hero-tag">Universitas Pradita — Semester Ganjil 2025/2026</div>
+    <h1 class="hero-title glitch" data-text="PORTOFOLIO" id="hero-main-title">
+      <span class="accent" id="hero-accent">PORTOFOLIO INDIVIDU</span>
+      <span class="accent2" id="hero-accent2">Zeisyah Ananda</span>
+    </h1>
+    <div class="hero-cta">
+      <a href="#tugas" class="btn-primary">Jelajahi Blog</a>
+      <a href="https://ekspetasivsrealita.carrd.co/#blogindividu" class="btn-outline" target="_blank" rel="noopener">Jelajahi Blog Kelompok</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== TUGAS KELOMPOK ===== -->
+<section id="tugas">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">TUGAS KELOMPOK</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="tugas-grid reveal">
+    <a href="https://drive.google.com/file/d/1pWOHmsdK44TRXgjIwTftQPYAJwEPngIp/view?pli=1" target="_blank" rel="noopener" style="text-decoration:none">
+    <div class="tugas-card" data-num="01" style="height:100%">
+      <div class="tugas-status status-done">Selesai</div>
+      <div class="tugas-title" id="tugas1-title">Proposal</div>
+    </div>
+    </a>
+    <a href="https://drive.google.com/file/d/1r-mzmKuFtesYFY-sLrMeEKgzWQwW0uMt/view" target="_blank" rel="noopener" style="text-decoration:none">
+    <div class="tugas-card" data-num="02" style="height:100%">
+      <div class="tugas-status status-done">Selesai</div>
+      <div class="tugas-title" id="tugas2-title">Laporan</div>
+    </div>
+    </a>
+    <a href="https://www.youtube.com/watch?si=AgI1eBrSNhzrWyDO&v=8Nip_xDNxPw&feature=youtu.be" target="_blank" rel="noopener" style="text-decoration:none">
+    <div class="tugas-card" data-num="03" style="height:100%">
+      <div class="tugas-status status-done">Selesai</div>
+      <div class="tugas-title" id="tugas3-title">Podcast</div>
+    </div>
+    </a>
+    <a href="https://www.youtube.com/watch?si=OxQP0NS1LAMrDl6G&v=5p7iwaC9w8I&feature=youtu.be" target="_blank" rel="noopener" style="text-decoration:none">
+    <div class="tugas-card" data-num="04" style="height:100%">
+      <div class="tugas-status status-done">Selesai</div>
+      <div class="tugas-title" id="tugas4-title">Videografis</div>
+    </div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== PROFILE ===== -->
+<section id="profile">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">PROFIL PENULIS</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="reveal" style="display:flex;justify-content:center">
+    <a href="profil-zeisyah.html" style="text-decoration:none;max-width:420px;width:100%">
+      <div class="profile-card-single">
+        <!-- Deco rings -->
+        <div class="pc-ring pc-ring1"></div>
+        <div class="pc-ring pc-ring2"></div>
+
+        <div class="pc-avatar">ZA</div>
+        <div class="pc-name">Zeisyah Ananda</div>
+        <div class="pc-nim">NIM // 2400101085</div>
+        <div class="pc-prodi">Culinary Art D3</div>
+        <div class="pc-univ">Universitas Pradita · Semester 4</div>
+
+        <div class="pc-tags">
+          <span class="pc-tag">Kuliner</span>
+          <span class="pc-tag">Audio Editing</span>
+          <span class="pc-tag">Riset</span>
+          <span class="pc-tag">Voice Over</span>
+          <span class="pc-tag">Penulisan</span>
+        </div>
+
+        <div class="pc-cta">
+          <span>Lihat Profil Lengkap</span>
+          <span class="pc-arrow">→</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ===== MATKUL ===== -->
+<section id="matkul">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">MATA KULIAH</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="matkul-layout reveal">
+    <div class="matkul-info">
+      <h3 id="mk-nama">ETIKA & BUDAYA</h3>
+      <p id="mk-desc">Untuk benar-benar memahami apa itu Etika Budaya sebagai sebuah disiplin akademik, kita harus mulai dari akar katanya, karena setiap kata menyimpan kedalaman makna yang sering kali kita lewatkan begitu saja dalam percakapan sehari-hari.</p>
+      <div class="info-rows">
+        <div class="info-row"><span class="label">SKS</span><span class="value" id="mk-sks">3 SKS</span></div>
+        <div class="info-row"><span class="label">Semester</span><span class="value" id="mk-sem">Genap 2025/2026</span></div>
+        <div class="info-row"><span class="label">Dosen</span><span class="value" id="mk-dosen">Dr. Arya Kresna, M.Hum</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Preview Card -->
+  <div class="matkul-preview-card reveal" style="margin-top:40px">
+    <div class="mpc-inner">
+      <div class="mpc-tag">// PREVIEW MATERI</div>
+      <p class="mpc-text">Dalam mata kuliah ini, mahasiswa diajak berkenalan dengan berbagai teori etika besar yang menjadi alat analisis, dan yang paling penting, diajak untuk mempertanyakan apakah teori-teori itu benar-benar universal atau justru merupakan produk dari budaya tertentu.</p>
+      <a href="#" onclick="openMatkuPreviewPage(); return false;" class="mpc-btn">Baca Selengkapnya <span class="mpc-arrow">→</span></a>
+    </div>
+    <div class="mpc-deco"></div>
+  </div>
+
+</section>
+
+<!-- ===== MATERI ===== -->
+<section id="materi">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">PEMBAHASAN MATERI</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="materi-layout reveal">
+    <div class="materi-item">
+      <div class="materi-num">01</div>
+      <div class="materi-body">
+        <h4 id="mat1-title">Fondasi Etika dan Kebudayaan</h4>
+        <p id="mat1-desc">Memahami dasar-dasar etika dan kebudayaan sebagai landasan dalam kehidupan akademik, profesional, dan sosial mahasiswa kuliner.</p>
+      </div>
+      <a href="materi-etika-budaya.html" class="materi-badge materi-link" style="color:var(--cyan);border-color:rgba(0,245,255,0.3);text-decoration:none">Baca Selengkapnya →</a>
+    </div>
+    <div class="materi-item">
+      <div class="materi-num">02</div>
+      <div class="materi-body">
+        <h4 id="mat2-title">Keanekaragaman</h4>
+        <p id="mat2-desc">Eksplorasi keanekaragaman budaya, tradisi kuliner, dan perspektif lintas bangsa yang membentuk kekayaan gastronomi dunia.</p>
+      </div>
+      <a href="materi-etika-budaya.html" class="materi-badge materi-link" style="color:var(--magenta);border-color:rgba(255,45,120,0.3);text-decoration:none">Baca Selengkapnya →</a>
+    </div>
+    <div class="materi-item">
+      <div class="materi-num">03</div>
+      <div class="materi-body">
+        <h4 id="mat3-title">Cultural Appropriation vs. Cultural Appreciation dalam Kuliner</h4>
+        <p id="mat3-desc">Memahami batas antara apresiasi budaya dan apropriasi budaya dalam dunia kuliner, serta cara menghormati warisan kuliner secara etis.</p>
+      </div>
+      <a href="materi-etika-budaya.html" class="materi-badge materi-link" style="color:var(--yellow);border-color:rgba(255,230,0,0.3);text-decoration:none">Baca Selengkapnya →</a>
+    </div>
+    <div class="materi-item">
+      <div class="materi-num">04</div>
+      <div class="materi-body">
+        <h4 id="mat4-title">Etika dalam Rantai Produksi Makanan</h4>
+        <p id="mat4-desc">Kajian etika sepanjang rantai produksi makanan, mulai dari sumber bahan baku, pengolahan, distribusi, hingga konsumsi yang bertanggung jawab.</p>
+      </div>
+      <a href="materi-etika-budaya.html" class="materi-badge materi-link" style="color:var(--cyan);border-color:rgba(0,245,255,0.3);text-decoration:none">Baca Selengkapnya →</a>
+    </div>
+    <div class="materi-item">
+      <div class="materi-num">05</div>
+      <div class="materi-body">
+        <h4 id="mat5-title">Komunikasi Lintas Budaya dalam Konteks Kuliner</h4>
+        <p id="mat5-desc">Strategi komunikasi efektif antar budaya dalam industri kuliner global, termasuk negosiasi, presentasi menu, dan pelayanan lintas budaya.</p>
+      </div>
+      <a href="materi-etika-budaya.html" class="materi-badge materi-link" style="color:var(--magenta);border-color:rgba(255,45,120,0.3);text-decoration:none">Baca Selengkapnya →</a>
+    </div>
+    <div class="materi-item">
+      <div class="materi-num">06</div>
+      <div class="materi-body">
+        <h4 id="mat6-title">Etika Profesional dalam Karier Kuliner</h4>
+        <p id="mat6-desc">Standar etika profesional yang diperlukan dalam karier kuliner, mencakup integritas, tanggung jawab, dan etika kerja di industri hospitality.</p>
+      </div>
+      <a href="materi-etika-budaya.html" class="materi-badge materi-link" style="color:var(--yellow);border-color:rgba(255,230,0,0.3);text-decoration:none">Baca Selengkapnya →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RELEVANSI ===== -->
+<section id="relevansi">
+  <div class="section-header">
+    <span class="section-num">06</span>
+    <h2 class="section-title">RELEVANSI MATKUL</h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="relevansi-cards reveal">
+    <div class="rel-card">
+      <span class="rel-icon">📊</span>
+      <h3 id="rel1-title">Topik Etika Bisnis dan Perspektif Moral dalam Laporan</h3>
+      <p id="rel1-desc">Mengkaji bagaimana etika bisnis membentuk cara pengambilan keputusan moral dalam pelaporan kuliner, termasuk transparansi informasi dan tanggung jawab terhadap konsumen dan pemangku kepentingan.</p>
+      <a href="relevansi-etika-budaya.html" class="rel-read-more">Baca Selengkapnya →</a>
+      <div class="corner"></div>
+    </div>
+    <div class="rel-card">
+      <span class="rel-icon">🍽️</span>
+      <h3 id="rel2-title">Makanan sebagai Artefak Budaya dalam Konteks Digital</h3>
+      <p id="rel2-desc">Memahami makanan bukan sekadar nutrisi, melainkan artefak budaya yang merekam sejarah, identitas, dan nilai suatu masyarakat—khususnya dalam era digital di mana narasi kuliner tersebar secara masif.</p>
+      <a href="relevansi-etika-budaya.html" class="rel-read-more">Baca Selengkapnya →</a>
+      <div class="corner"></div>
+    </div>
+    <div class="rel-card">
+      <span class="rel-icon">📸</span>
+      <h3 id="rel3-title">Kejujuran Visual dan Etika Komunikasi</h3>
+      <p id="rel3-desc">Mengeksplorasi dimensi etika dalam komunikasi visual kuliner, termasuk manipulasi foto makanan, representasi yang menyesatkan, dan tanggung jawab moral di balik setiap konten yang dipublikasikan.</p>
+      <a href="relevansi-etika-budaya.html" class="rel-read-more">Baca Selengkapnya →</a>
+      <div class="corner"></div>
+    </div>
+    <div class="rel-card">
+      <span class="rel-icon">🌱</span>
+      <h3 id="rel4-title">Tanggung Jawab Rantai Produksi dan Sustainability</h3>
+      <p id="rel4-desc">Menelusuri tanggung jawab etis pada setiap titik rantai produksi makanan dalam kerangka keberlanjutan, dari pertanian regeneratif hingga pengelolaan limbah yang bertanggung jawab.</p>
+      <a href="relevansi-etika-budaya.html" class="rel-read-more">Baca Selengkapnya →</a>
+      <div class="corner"></div>
+    </div>
+    <div class="rel-card">
+      <span class="rel-icon">⚖️</span>
+      <h3 id="rel5-title">Etika Profesional dan Brand Loyalty Erosion</h3>
+      <p id="rel5-desc">Mendalami bagaimana pelanggaran etika profesional dalam industri kuliner dapat mengikis loyalitas merek secara perlahan, serta strategi membangun kepercayaan jangka panjang melalui integritas.</p>
+      <a href="relevansi-etika-budaya.html" class="rel-read-more">Baca Selengkapnya →</a>
+      <div class="corner"></div>
+    </div>
+    <div class="rel-card">
+      <span class="rel-icon">🔄</span>
+      <h3 id="rel6-title">Swing Consumers sebagai Fenomena Etika</h3>
+      <p id="rel6-desc">Menganalisis perilaku swing consumers—konsumen yang berpindah loyalitas—sebagai fenomena etika yang mencerminkan respons pasar terhadap praktik bisnis kuliner yang tidak konsisten atau tidak bertanggung jawab.</p>
+      <a href="relevansi-etika-budaya.html" class="rel-read-more">Baca Selengkapnya →</a>
+      <div class="corner"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">PORTOFOLIO INDIVIDU</div>
+      <p>// ZEISYAH ANANDA — UNIVERSITAS PRADITA — 2025/2026</p>
+    </div>
+    <div class="footer-right">
+      <p>DIBUAT DENGAN <span>♥</span> DAN KODE</p>
+      <p style="margin-top:4px">© 2024 — ALL RIGHTS RESERVED</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== ARTICLE OVERLAY ===== -->
+<div class="art-overlay" id="artOverlay">
+  <div class="art-backdrop" onclick="closeArtOverlay()"></div>
+  <div class="art-panel" id="artPanel">
+    <div class="art-inner">
+      <button class="art-close" onclick="closeArtOverlay()">Kembali</button>
+      <div class="art-page-tag" id="artTag">MATA KULIAH</div>
+      <div class="art-page-label" id="artLabel">EB</div>
+      <h1 class="art-h1" id="artTitle">Tentang Mata Kuliah Ini</h1>
+      <div class="art-pullquote" id="artPullquote" style="display:none"></div>
+      <div class="art-deco-bar"></div>
+      <div class="art-body" id="artBody"></div>
+      <span class="art-footnote">// PORTOFOLIO INDIVIDU — ZEISYAH ANANDA — UNIVERSITAS PRADITA 2025/2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EDIT FAB ===== -->
+<button class="edit-fab" onclick="openEditModal()" title="Edit Konten">✏️</button>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">EDIT KONTEN</div>
+    <div class="modal-sub">// Klik section yang ingin diedit</div>
+
+    <div id="editSections">
+      <!-- Section picker -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px">
+        <button onclick="showEdit('hero')" style="padding:14px;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.2);color:var(--text);font-family:var(--font-mono);font-size:10px;letter-spacing:2px;cursor:none;transition:all 0.2s" onmouseenter="this.style.background='rgba(255,45,120,0.15)'" onmouseleave="this.style.background='rgba(255,45,120,0.08)'">HERO</button>
+        <button onclick="showEdit('blog')" style="padding:14px;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.2);color:var(--text);font-family:var(--font-mono);font-size:10px;letter-spacing:2px;cursor:none;transition:all 0.2s" onmouseenter="this.style.background='rgba(255,45,120,0.15)'" onmouseleave="this.style.background='rgba(255,45,120,0.08)'">BLOG</button>
+        <button onclick="showEdit('tugas')" style="padding:14px;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.2);color:var(--text);font-family:var(--font-mono);font-size:10px;letter-spacing:2px;cursor:none;transition:all 0.2s" onmouseenter="this.style.background='rgba(255,45,120,0.15)'" onmouseleave="this.style.background='rgba(255,45,120,0.08)'">TUGAS</button>
+        <button onclick="showEdit('profile')" style="padding:14px;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.2);color:var(--text);font-family:var(--font-mono);font-size:10px;letter-spacing:2px;cursor:none;transition:all 0.2s" onmouseenter="this.style.background='rgba(255,45,120,0.15)'" onmouseleave="this.style.background='rgba(255,45,120,0.08)'">PROFIL</button>
+        <button onclick="showEdit('matkul')" style="padding:14px;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.2);color:var(--text);font-family:var(--font-mono);font-size:10px;letter-spacing:2px;cursor:none;transition:all 0.2s" onmouseenter="this.style.background='rgba(255,45,120,0.15)'" onmouseleave="this.style.background='rgba(255,45,120,0.08)'">MATKUL</button>
+        <button onclick="showEdit('materi')" style="padding:14px;background:rgba(255,45,120,0.08);border:1px solid rgba(255,45,120,0.2);color:var(--text);font-family:var(--font-mono);font-size:10px;letter-spacing:2px;cursor:none;transition:all 0.2s" onmouseenter="this.style.background='rgba(255,45,120,0.15)'" onmouseleave="this.style.background='rgba(255,45,120,0.08)'">MATERI</button>
+      </div>
+    </div>
+
+    <!-- Edit Forms (hidden by default) -->
+    <div id="form-hero" class="edit-form" style="display:none">
+      <div class="form-group"><label>Tag / Keterangan Universitas</label><input type="text" id="e-hero-tag" placeholder="Universitas Nusantara — Semester Ganjil 2024"></div>
+      <div class="form-group"><label>Judul Aksen (Besar)</label><input type="text" id="e-hero-accent" placeholder="AKADEMIK"></div>
+      <div class="form-group"><label>Sub-judul (Kecil)</label><input type="text" id="e-hero-accent2" placeholder="// BLOG KELOMPOK 06"></div>
+      <div class="form-group"><label>Deskripsi Hero</label><textarea id="e-hero-subtitle"></textarea></div>
+    </div>
+
+    <div id="form-blog" class="edit-form" style="display:none">
+      <div class="form-group"><label>Judul Artikel Utama</label><input type="text" id="e-blog1-title"></div>
+      <div class="form-group"><label>Isi Cuplikan Artikel Utama</label><textarea id="e-blog1-excerpt"></textarea></div>
+      <div class="form-group"><label>Tanggal Artikel Utama</label><input type="text" id="e-blog1-date" placeholder="25 Nov 2024"></div>
+      <div class="form-group"><label>Penulis Artikel Utama</label><input type="text" id="e-blog1-author"></div>
+      <hr style="border-color:rgba(255,255,255,0.06);margin:24px 0">
+      <div class="form-group"><label>Judul Post 2</label><input type="text" id="e-blog2-title"></div>
+      <div class="form-group"><label>Judul Post 3</label><input type="text" id="e-blog3-title"></div>
+      <div class="form-group"><label>Judul Post 4</label><input type="text" id="e-blog4-title"></div>
+    </div>
+
+    <div id="form-tugas" class="edit-form" style="display:none">
+      <div class="form-group"><label>Judul Tugas 1</label><input type="text" id="e-tugas1-title"></div>
+      <div class="form-group"><label>Deskripsi Tugas 1</label><textarea id="e-tugas1-desc"></textarea></div>
+      <div class="form-group"><label>Anggota Tugas 1 (pisah koma)</label><input type="text" id="e-tugas1-members"></div>
+      <hr style="border-color:rgba(255,255,255,0.06);margin:24px 0">
+      <div class="form-group"><label>Judul Tugas 2</label><input type="text" id="e-tugas2-title"></div>
+      <div class="form-group"><label>Deskripsi Tugas 2</label><textarea id="e-tugas2-desc"></textarea></div>
+    </div>
+
+    <div id="form-profile" class="edit-form" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group"><label>Nama Anggota 1</label><input type="text" id="e-p1-name"></div>
+        <div class="form-group"><label>NIM 1</label><input type="text" id="e-p1-nim"></div>
+        <div class="form-group"><label>Nama Anggota 2</label><input type="text" id="e-p2-name"></div>
+        <div class="form-group"><label>NIM 2</label><input type="text" id="e-p2-nim"></div>
+        <div class="form-group"><label>Nama Anggota 3</label><input type="text" id="e-p3-name"></div>
+        <div class="form-group"><label>NIM 3</label><input type="text" id="e-p3-nim"></div>
+        <div class="form-group"><label>Nama Anggota 4</label><input type="text" id="e-p4-name"></div>
+        <div class="form-group"><label>NIM 4</label><input type="text" id="e-p4-nim"></div>
+        <div class="form-group"><label>Nama Anggota 5</label><input type="text" id="e-p5-name"></div>
+        <div class="form-group"><label>NIM 5</label><input type="text" id="e-p5-nim"></div>
+      </div>
+    </div>
+
+    <div id="form-matkul" class="edit-form" style="display:none">
+      <div class="form-group"><label>Nama Mata Kuliah</label><input type="text" id="e-mk-nama"></div>
+      <div class="form-group"><label>Deskripsi Mata Kuliah</label><textarea id="e-mk-desc"></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div class="form-group"><label>Kode MK</label><input type="text" id="e-mk-kode"></div>
+        <div class="form-group"><label>SKS</label><input type="text" id="e-mk-sks"></div>
+        <div class="form-group"><label>Semester</label><input type="text" id="e-mk-sem"></div>
+        <div class="form-group"><label>Dosen Pengampu</label><input type="text" id="e-mk-dosen"></div>
+        <div class="form-group"><label>Kelas / Waktu</label><input type="text" id="e-mk-kelas"></div>
+        <div class="form-group"><label>Ruang</label><input type="text" id="e-mk-ruang"></div>
+      </div>
+    </div>
+
+    <div id="form-materi" class="edit-form" style="display:none">
+      <div class="form-group"><label>Judul Materi 1</label><input type="text" id="e-mat1-title"></div>
+      <div class="form-group"><label>Deskripsi Materi 1</label><textarea id="e-mat1-desc"></textarea></div>
+      <div class="form-group"><label>Judul Materi 2</label><input type="text" id="e-mat2-title"></div>
+      <div class="form-group"><label>Deskripsi Materi 2</label><textarea id="e-mat2-desc"></textarea></div>
+      <div class="form-group"><label>Judul Materi 3</label><input type="text" id="e-mat3-title"></div>
+      <div class="form-group"><label>Deskripsi Materi 3</label><textarea id="e-mat3-desc"></textarea></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-close-modal" onclick="closeEditModal()">TUTUP</button>
+      <button class="btn-save" id="saveBtn" style="display:none" onclick="saveEdits()">SIMPAN PERUBAHAN</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CURSOR =====
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+
+document.querySelectorAll('a, button, .blog-featured, .blog-card-sm, .tugas-card, .profile-card, .rel-card, .materi-item').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+});
+
+// ===== SCROLL REVEAL =====
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+reveals.forEach(r => obs.observe(r));
+
+// ===== NAV ACTIVE =====
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let curr = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) curr = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + curr);
+  });
+});
+
+// ===== MODAL LOGIC =====
+let currentForm = null;
+
+function openEditModal() {
+  document.getElementById('modalOverlay').classList.add('active');
+  document.getElementById('saveBtn').style.display = 'none';
+  hideAllForms();
+}
+function closeEditModal() {
+  document.getElementById('modalOverlay').classList.remove('active');
+}
+function hideAllForms() {
+  document.querySelectorAll('.edit-form').forEach(f => f.style.display = 'none');
+}
+
+function showEdit(section) {
+  hideAllForms();
+  currentForm = section;
+  const form = document.getElementById('form-' + section);
+  if (!form) return;
+  form.style.display = 'block';
+  document.getElementById('saveBtn').style.display = 'inline-block';
+
+  // Populate fields
+  if (section === 'hero') {
+    setVal('e-hero-tag', 'hero-tag');
+    setVal('e-hero-accent', 'hero-accent');
+    setVal('e-hero-accent2', 'hero-accent2');
+    setVal('e-hero-subtitle', 'hero-subtitle');
+  } else if (section === 'blog') {
+    ['blog1-title','blog1-excerpt','blog1-date','blog1-author','blog2-title','blog3-title','blog4-title'].forEach(id => setVal('e-'+id, id));
+  } else if (section === 'tugas') {
+    ['tugas1-title','tugas1-desc','tugas2-title','tugas2-desc'].forEach(id => setVal('e-'+id, id));
+    document.getElementById('e-tugas1-members').value = [
+      document.getElementById('tugas1-m1').textContent,
+      document.getElementById('tugas1-m2').textContent,
+      document.getElementById('tugas1-m3').textContent
+    ].join(', ');
+  } else if (section === 'profile') {
+    ['p1-name','p1-nim','p2-name','p2-nim','p3-name','p3-nim','p4-name','p4-nim','p5-name','p5-nim'].forEach(id => setVal('e-'+id, id));
+  } else if (section === 'matkul') {
+    ['mk-nama','mk-desc','mk-kode','mk-sks','mk-sem','mk-dosen','mk-kelas','mk-ruang'].forEach(id => setVal('e-'+id, id));
+  } else if (section === 'materi') {
+    ['mat1-title','mat1-desc','mat2-title','mat2-desc','mat3-title','mat3-desc'].forEach(id => setVal('e-'+id, id));
+  }
+}
+
+function setVal(inputId, elId) {
+  const el = document.getElementById(elId);
+  const input = document.getElementById(inputId);
+  if (el && input) input.value = el.textContent.trim();
+}
+
+function saveEdits() {
+  if (currentForm === 'hero') {
+    applyVal('e-hero-tag', 'hero-tag');
+    applyVal('e-hero-accent', 'hero-accent');
+    applyVal('e-hero-accent2', 'hero-accent2');
+    applyVal('e-hero-subtitle', 'hero-subtitle');
+    // Update glitch data-text
+    const t = document.querySelector('.hero-title');
+    t.setAttribute('data-text', t.textContent.split('\n')[0].trim());
+  } else if (currentForm === 'blog') {
+    ['blog1-title','blog1-excerpt','blog1-date','blog1-author','blog2-title','blog3-title','blog4-title'].forEach(id => applyVal('e-'+id, id));
+  } else if (currentForm === 'tugas') {
+    ['tugas1-title','tugas1-desc','tugas2-title','tugas2-desc'].forEach(id => applyVal('e-'+id, id));
+    const members = document.getElementById('e-tugas1-members').value.split(',').map(s => s.trim());
+    ['tugas1-m1','tugas1-m2','tugas1-m3'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el && members[i]) el.textContent = members[i];
+    });
+  } else if (currentForm === 'profile') {
+    ['p1-name','p1-nim','p2-name','p2-nim','p3-name','p3-nim','p4-name','p4-nim','p5-name','p5-nim'].forEach(id => applyVal('e-'+id, id));
+    // Update initials
+    ['p1','p2','p3','p4','p5'].forEach(p => {
+      const name = document.getElementById(p+'-name').textContent.trim();
+      const init = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      document.getElementById(p+'-initial').textContent = init;
+    });
+  } else if (currentForm === 'matkul') {
+    ['mk-nama','mk-desc','mk-kode','mk-sks','mk-sem','mk-dosen','mk-kelas','mk-ruang'].forEach(id => applyVal('e-'+id, id));
+  } else if (currentForm === 'materi') {
+    ['mat1-title','mat1-desc','mat2-title','mat2-desc','mat3-title','mat3-desc'].forEach(id => applyVal('e-'+id, id));
+  }
+
+  showToast();
+  closeEditModal();
+}
+
+function applyVal(inputId, elId) {
+  const input = document.getElementById(inputId);
+  const el = document.getElementById(elId);
+  if (input && el) el.textContent = input.value;
+}
+
+function showToast() {
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// Close modal on overlay click
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeEditModal();
+});
+
+// ===== MATERI PAGE POPUP =====
+const materiData = [
+  null, // index 0 unused
+  {
+    num: '01',
+    title: 'Fondasi Etika dan Kebudayaan',
+    colorRaw: '0,245,255',
+    content: `
+      <h3>1.1 Pengertian Etika: Lebih dari Sekadar "Benar dan Salah"</h3>
+      <p>Etika berasal dari bahasa Yunani <em>ēthos</em>, yang berarti karakter atau kebiasaan. Namun dalam kajian akademis, etika adalah cabang filsafat yang mempelajari prinsip-prinsip moral yang mengatur perilaku manusia dalam hubungannya dengan individu lain dan masyarakat secara luas.</p>
+      <p>Ada tiga aliran etika besar yang perlu dipahami:</p>
+      <p><strong>Etika Deontologis (Immanuel Kant)</strong> — Sebuah tindakan dinilai dari <em>niatnya</em>, bukan dari hasilnya. Misalnya, seorang chef yang menolak menggunakan bahan curian meskipun hasilnya masakan yang lezat, karena pencurian secara moral tidak dapat dibenarkan dalam kondisi apapun.</p>
+      <p><strong>Etika Konsekuensialis (John Stuart Mill — Utilitarianisme)</strong> — Sebuah tindakan dinilai dari dampaknya terhadap kebaikan terbanyak bagi orang terbanyak. Contohnya keputusan chef untuk mengurangi penggunaan daging merah demi kesehatan publik dan kelestarian lingkungan.</p>
+      <p><strong>Etika Kebajikan (Aristoteles)</strong> — Berfokus bukan pada tindakan semata melainkan pada <em>karakter pelakunya</em>. Seorang chef yang jujur, rendah hati, dan penuh integritas adalah perwujudan nyata dari etika kebajikan ini.</p>
+      <h3>1.2 Definisi Kebudayaan sebagai Sistem Nilai yang Hidup</h3>
+      <p>Kebudayaan bukanlah sesuatu yang statis seperti koleksi di dalam museum. Ia adalah sistem nilai, norma, simbol, dan praktik yang terus bergerak, berkembang, dan bernegosiasi di tengah masyarakat yang dinamis. Edward Tylor, seorang antropolog Inggris abad ke-19, mendefinisikan kebudayaan sebagai keseluruhan kompleks yang mencakup pengetahuan, kepercayaan, seni, moral, hukum, adat istiadat, dan kemampuan lain yang diperoleh manusia sebagai anggota masyarakat.</p>
+      <p>Yang paling penting untuk diinternalisasi adalah bahwa <em>kebudayaan tidak bisa dihirarki</em>. Tidak ada budaya yang lebih tinggi atau lebih rendah dari budaya lain — yang ada hanyalah perbedaan. Pemahaman ini adalah fondasi dari seluruh mata kuliah Etika &amp; Budaya.</p>
+      <h3>1.3 Hubungan Etika dan Kebudayaan dalam Dunia Kuliner</h3>
+      <p>Makanan adalah <em>artefak budaya yang paling demokratis</em>, karena semua orang dari semua lapisan masyarakat terlibat dengannya setiap hari tanpa terkecuali. Ketika seorang chef mengangkat masakan tradisional suatu suku ke dalam menu fine dining, di sana terdapat pertanyaan etis yang serius: apakah ia melakukannya dengan hormat atau semata demi keuntungan komersial? Jawabannya bergantung sepenuhnya pada seberapa dalam ia memahami etika budaya.</p>
+    `
+  },
+  {
+    num: '02',
+    title: 'Keanekaragaman Budaya Kuliner Dunia',
+    colorRaw: '255,45,120',
+    content: `
+      <h3>2.1 Peta Budaya Kuliner Global: Memahami Geografi Rasa</h3>
+      <p>Dunia kuliner terbagi dalam beberapa kluster budaya besar yang masing-masing memiliki filosofi memasak yang unik. <strong>Asia Timur</strong> (Tiongkok, Jepang, Korea) sangat dipengaruhi prinsip keseimbangan antara panas-dingin, umami, dan tekstur yang kontras. <strong>Asia Selatan &amp; Tenggara</strong> (India, Indonesia, Thailand, Vietnam) mengandalkan kompleksitas rempah sebagai bahasa ekspresi budaya. <strong>Mediterania &amp; Eropa</strong> mengedepankan kualitas bahan baku dengan teknik yang menonjolkan karakter aslinya. <strong>Amerika Latin</strong> mencerminkan perpaduan peradaban pra-Columbian, Eropa, dan Afrika dalam setiap hidangan.</p>
+      <p>Sebagai mahasiswa culinary, kalian harus mampu membaca sebuah hidangan layaknya membaca teks sejarah yang penuh lapisan makna.</p>
+      <h3>2.2 Makanan sebagai Identitas dan Simbol Sosial</h3>
+      <p>Makanan bukan hanya soal rasa. Ia adalah penanda identitas sosial, religius, dan bahkan politik. Di Jepang, tradisi <em>washoku</em> telah diakui UNESCO sebagai Warisan Budaya Takbenda — bukan karena resepnya semata, melainkan karena ia membawa nilai estetika <em>wabi-sabi</em>, penghormatan terhadap pergantian musim, dan keharmonisan mendalam antara manusia dengan alam.</p>
+      <p>Di Indonesia sendiri, nasi tidak sekadar karbohidrat. Ia adalah simbol kemakmuran, kehidupan, dan bahkan sakralitas. Upacara <em>slametan</em> di tanah Jawa, ritual syukuran di berbagai penjuru nusantara — semuanya berpusat pada makanan sebagai medium komunikasi antara manusia, komunitasnya, dan dimensi spiritual yang dipercayainya.</p>
+      <h3>2.3 Pengaruh Agama dan Kepercayaan terhadap Praktik Kuliner</h3>
+      <p><strong>Konsep Halal dalam Islam</strong> bukan hanya soal jenis daging yang boleh dikonsumsi. Ia mencakup keseluruhan rantai produksi, mulai dari cara penyembelihan yang manusiawi hingga keabsahan transaksi jual beli bahan bakunya dari sudut pandang hukum Islam.</p>
+      <p><strong>Kosher dalam Yudaisme</strong> membagi makanan dalam kategori <em>fleishig</em> (daging), <em>milchig</em> (produk susu), dan <em>pareve</em> (netral), dengan ketentuan bahwa daging dan susu tidak boleh dikonsumsi bersamaan. Praktik ini memiliki akar dalam teks Taurat dan interpretasi rabinik selama ribuan tahun.</p>
+      <p><strong>Vegetarianisme dalam Hinduisme &amp; Buddhisme</strong> berakar pada konsep <em>ahimsa</em> atau non-kekerasan: kepercayaan bahwa semua makhluk hidup memiliki nilai yang setara dan tidak layak untuk disakiti demi kepentingan konsumsi manusia.</p>
+      <p>Sebagai chef profesional, memahami semua ini bukan soal apakah kalian secara pribadi setuju atau tidak. Ini adalah soal menghormati integritas keyakinan setiap tamu yang mempercayakan pengalaman makannya kepada kalian.</p>
+    `
+  },
+  {
+    num: '03',
+    title: 'Cultural Appropriation vs. Cultural Appreciation dalam Kuliner',
+    colorRaw: '255,230,0',
+    content: `
+      <h3>3.1 Memahami Garis Tipis yang Sering Dilintasi Tanpa Disadari</h3>
+      <p><em>Cultural appropriation</em> terjadi ketika elemen dari budaya yang terpinggirkan diambil dan digunakan oleh budaya yang lebih dominan, tanpa pemahaman yang memadai, tanpa izin, dan tanpa penghargaan yang tulus. Seringkali keuntungan ekonomi yang besar mengalir ke pihak yang mengambil — bukan kepada komunitas yang menjadi sumber aslinya.</p>
+      <p><strong>Appropriation:</strong> Chef dari luar komunitas membuka restoran dengan versi modifikasi masakan tradisional, memberi nama yang glamor, menetapkan harga premium, namun tidak pernah mengakui dari mana masakan itu berasal.</p>
+      <p><strong>Appreciation:</strong> Chef yang sama meluangkan waktu pergi langsung ke komunitas tersebut, belajar dari para penjaga tradisi aslinya, mengakui secara terbuka sumber inspirasinya, dan menjalin kolaborasi yang menguntungkan komunitas itu secara ekonomi.</p>
+      <h3>3.2 Studi Kasus: Kontroversi Nyata di Industri Kuliner Global</h3>
+      <p>Kontroversi <strong>Restoran Opium di London</strong> yang akhirnya dipaksa berganti nama setelah gelombang protes dari komunitas Asia. Kasus <strong>Jamie Oliver</strong> yang dikritik tajam karena menggunakan istilah <em>jerk rice</em> dari tradisi kuliner Karibia tanpa pemahaman konteks budaya yang memadai. Hingga perdebatan soal siapa yang "berhak" memasak sushi secara otentik — apakah hanya orang Jepang yang boleh, atau siapa pun boleh asalkan mengerjakannya dengan penuh penghormatan.</p>
+      <p>Dari berbagai kasus tersebut, satu prinsip emas: <em>intensi yang baik tidak pernah cukup. Dampak yang dihasilkan dan proses yang dijalani harus sama baiknya dengan niat yang dimiliki.</em></p>
+      <h3>3.3 Panduan Etis untuk Berkreasi Lintas Budaya</h3>
+      <p><strong>1. Riset yang Mendalam</strong> — Pelajari konteks historis, sosial, dan budaya dari masakan yang dijadikan inspirasi, bukan hanya teknik memasaknya.</p>
+      <p><strong>2. Transparansi dan Atribusi</strong> — Sebutkan dengan jujur dan bangga dari mana inspirasi kalian berasal.</p>
+      <p><strong>3. Keterlibatan Komunitas</strong> — Apabila memungkinkan, libatkan anggota dari komunitas asal dalam proses pengembangan resep dan konsep.</p>
+      <p><strong>4. Kerendahan Hati</strong> — Kesadaran bahwa kalian adalah tamu dalam tradisi yang bukan milik kalian, dan harus berperilaku selayaknya tamu yang terhormat.</p>
+    `
+  },
+  {
+    num: '04',
+    title: 'Etika dalam Rantai Produksi Makanan',
+    colorRaw: '0,245,255',
+    content: `
+      <h3>4.1 Farm to Fork: Tanggung Jawab Moral Sepanjang Rantai</h3>
+      <p>Seorang chef yang beretika tidak hanya bertanggung jawab terhadap apa yang tersaji di atas piring. Ia bertanggung jawab terhadap seluruh perjalanan bahan makanan dari ladang pertama hingga meja makan terakhir. Konsep <em>farm to fork</em> bukan sekadar tren pemasaran — ia adalah pernyataan moral yang tegas tentang bagaimana kita memandang hubungan antara manusia, hewan, tanah, dan ekosistem yang menopang kehidupan kita.</p>
+      <p>Pertanyaan etis yang harus selalu hadir di benak kalian: Apakah petani yang menanam bahan baku kita mendapatkan upah yang adil dan layak? Apakah hewan yang kita konsumsi diperlakukan secara manusiawi sepanjang hidupnya? Apakah metode pertanian yang digunakan merusak keanekaragaman hayati lokal yang tidak ternilai harganya?</p>
+      <h3>4.2 Keberlanjutan sebagai Imperatif Etis</h3>
+      <p>Krisis iklim yang kita hadapi saat ini telah mengubah keberlanjutan dari sekadar pilihan menjadi <em>kewajiban moral yang tidak bisa ditawar lagi</em>. Industri makanan secara global bertanggung jawab atas sekitar <strong>26 persen</strong> dari total emisi gas rumah kaca dunia. Sebagai calon profesional kuliner masa depan, kalian akan berada di garis terdepan dalam membuat pilihan-pilihan harian yang berdampak nyata terhadap kesehatan planet ini.</p>
+      <p>Ini mencakup pemilihan bahan yang musiman dan bersumber lokal untuk meminimalkan jejak karbon dari transportasi pangan, pengurangan serius terhadap food waste yang saat ini secara mengkhawatirkan telah mencapai sepertiga dari seluruh produksi pangan global, serta pemilihan metode memasak yang hemat energi tanpa mengorbankan kualitas. Setiap keputusan yang kalian buat di dalam dapur adalah sebuah keputusan etis yang memiliki konsekuensi jauh melampaui dinding dapur itu sendiri.</p>
+      <h3>4.3 Etika terhadap Pekerja Dapur: Isu yang Terlalu Lama Diabaikan</h3>
+      <p>Budaya dapur profesional selama puluhan tahun dikenal dengan hierarki yang keras, jam kerja yang brutal, dan tekanan mental yang ekstrem — sebuah budaya yang bahkan dipopulerkan dan diromantisasi oleh figur-figur chef terkenal di televisi. Namun kini, industri mulai mengakui secara perlahan dan menyakitkan bahwa budaya dapur yang toksik adalah masalah etika yang serius, bukan sekadar masalah gaya manajemen.</p>
+      <p>Kalian, sebagai generasi baru profesional kuliner, memiliki tanggung jawab sejarah untuk membangun budaya dapur yang sungguh menghargai kesehatan mental setiap anggota tim, yang menjamin kesetaraan gender tanpa kompromi, dan yang memelihara martabat setiap orang di dapur, apapun posisinya dalam hierarki brigade masak.</p>
+    `
+  },
+  {
+    num: '05',
+    title: 'Komunikasi Lintas Budaya dalam Konteks Kuliner',
+    colorRaw: '255,45,120',
+    content: `
+      <h3>5.1 Etika Komunikasi di Meja Makan</h3>
+      <p>Meja makan adalah ruang negosiasi budaya yang jauh lebih kompleks dari yang terlihat di permukaan. Di Jepang, membunyikan suara saat menyeruput mie adalah tanda penghargaan yang tulus terhadap makanan yang disajikan. Di Eropa, tindakan yang persis sama dianggap tidak sopan dan memalukan. Di Timur Tengah, menolak tawaran makanan dari tuan rumah bisa ditafsirkan sebagai penghinaan yang serius. Di banyak budaya Asia, meninggalkan piring dalam keadaan bersih kosong justru menandakan bahwa tamu masih lapar dan tuan rumah belum cukup memuliakan tamunya.</p>
+      <p>Sebagai seseorang yang bekerja di industri hospitality, tidak mengetahui hal-hal semacam ini bukan hanya kecanggungan sosial biasa. Ini adalah <em>kelalaian profesional yang serius</em>.</p>
+      <h3>5.2 Bahasa, Nama, dan Hak atas Warisan Kuliner</h3>
+      <p>Ada pertanyaan yang semakin mengemuka secara internasional: siapakah yang sesungguhnya memiliki nama sebuah hidangan? <strong>Prancis</strong> dengan sangat ketat melindungi nama Champagne, yang hanya boleh digunakan untuk anggur bersoda yang berasal dari region Champagne di wilayahnya. <strong>Italia</strong> melindungi nama Parmigiano Reggiano, Prosciutto di Parma, dan puluhan nama produk kuliner lainnya melalui sistem Denominazione di Origine Protetta (DOP). <strong>Indonesia</strong> sendiri kini mulai bergerak dalam arah yang sama dengan mendaftarkan kopi Gayo, kopi Toraja, dan berbagai produk unggulan nusantara lainnya ke dalam perlindungan internasional.</p>
+      <p>Ini bukan sekadar soal strategi branding dan pemasaran. Ini adalah soal <em>keadilan ekonomi bagi komunitas lokal</em> dan pelestarian warisan budaya yang tidak ternilai.</p>
+    `
+  },
+  {
+    num: '06',
+    title: 'Etika Profesional dalam Karier Kuliner',
+    colorRaw: '255,230,0',
+    content: `
+      <h3>6.1 Integritas dalam Kreativitas: Batas antara Inspirasi dan Plagiarisme</h3>
+      <p>Di dunia seni, plagiarisme dilarang dengan tegas dan jelas. Di dunia kuliner, batasnya memang lebih kabur karena resep dalam bentuknya yang paling dasar tidak bisa dipatenkan. Namun yang jauh lebih penting dari perlindungan hukum adalah <em>integritas moral seorang chef sebagai senimannya</em>. Seorang chef yang mengambil signature dish milik chef lain tanpa atribusi adalah chef yang tidak memiliki integritas, meskipun secara hukum ia mungkin tidak bisa digugat karena tindakannya tersebut. Dunia kuliner adalah dunia yang kecil, dan <strong>reputasi adalah segalanya</strong>.</p>
+      <h3>6.2 Etika dalam Era Media Sosial dan Food Influencer</h3>
+      <p>Di era Instagram, TikTok, dan berbagai platform digital lainnya, representasi makanan dan budaya kuliner telah mengambil dimensi baru yang penuh dengan jebakan etis yang tidak selalu terlihat jelas. Seorang food blogger yang menggambarkan masakan suatu budaya dengan kata-kata yang meremehkan atau menertawakan, atau seorang influencer yang mempromosikan "pengalaman otentik" padahal yang ia sajikan kepada jutaan pengikutnya adalah versi yang telah jauh terdistorsi dari aslinya, merupakan pelanggaran etika budaya yang nyata meskipun tidak ada sanksi hukum yang secara langsung dapat menjerat mereka.</p>
+      <h3>6.3 Tanggung Jawab Chef sebagai Duta Budaya</h3>
+      <p>Inilah muara dari seluruh rangkaian materi yang telah kita bahas bersama. Seorang chef bukan sekadar seseorang yang terampil memasak di dalam dapur. Dalam konteks yang lebih luas dan lebih bermakna, ia adalah <em>diplomat budaya, penjaga warisan peradaban, dan agen perubahan sosial</em> yang memiliki jangkauan pengaruh yang luar biasa besar.</p>
+      <p>Ferran Adrià dengan restoran elBulli-nya mengubah cara dunia memandang masakan Spanyol. René Redzepi melalui Noma memperkenalkan kekayaan tradisi Skandinavia kepada seluruh dunia kuliner internasional. Bapak William Wongso selama puluhan tahun berjuang dengan penuh dedikasi untuk mengangkat martabat masakan Indonesia di panggung kuliner internasional.</p>
+      <p>Kalian pun, suatu hari nanti, akan berdiri di posisi yang sama besarnya. Dan yang akan membedakan kalian dari chef lainnya bukan hanya keahlian teknis yang kalian miliki di balik kompor dan pisau — melainkan <em>kedalaman pemahaman kalian tentang budaya, sejarah, dan etika yang menyelimuti setiap makanan yang kalian hadirkan kepada dunia.</em></p>
+    `
+  }
+];
+
+function openMateriPage(num) {
+  const d = materiData[num];
+  if (!d) return;
+
+  let accent = 'yellow';
+  if (d.colorRaw === '0,245,255') accent = 'cyan';
+  else if (d.colorRaw === '255,45,120') accent = 'magenta';
+
+  openArtOverlay({
+    accent,
+    tag: 'PEMBAHASAN MATERI',
+    label: d.num,
+    title: d.title,
+    pullquote: null,
+    body: d.content
+  });
+}
+
+// Typing counter animation
+let count = 0;
+setInterval(() => {
+  count = (count + 1) % 1000;
+  const c = document.querySelector('.nav-counter');
+  if (c) c.innerHTML = `SYS_${String(count).padStart(3,'0')}<span class="blink">_</span>`;
+}, 200);
+
+// ===== ARTICLE OVERLAY ENGINE =====
+function openArtOverlay({ accent = 'yellow', tag, label, title, pullquote, body }) {
+  const panel = document.getElementById('artPanel');
+  panel.className = 'art-panel';
+  if (accent === 'cyan') panel.classList.add('accent-cyan');
+  else if (accent === 'magenta') panel.classList.add('accent-magenta');
+
+  document.getElementById('artTag').textContent = tag;
+  document.getElementById('artLabel').textContent = label;
+  document.getElementById('artTitle').textContent = title;
+
+  const pq = document.getElementById('artPullquote');
+  if (pullquote) {
+    pq.style.display = '';
+    pq.textContent = pullquote;
+  } else {
+    pq.style.display = 'none';
+  }
+  document.getElementById('artBody').innerHTML = body;
+
+  const overlay = document.getElementById('artOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  panel.scrollTop = 0;
+}
+
+function closeArtOverlay() {
+  document.getElementById('artOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeArtOverlay();
+});
+
+function openMatkuPreviewPage() {
+  openArtOverlay({
+    accent: 'yellow',
+    tag: 'MATA KULIAH — ETIKA & BUDAYA',
+    label: 'EB',
+    title: 'Tentang Mata Kuliah Ini',
+    pullquote: 'Dalam mata kuliah ini, mahasiswa diajak berkenalan dengan berbagai teori etika besar yang menjadi alat analisis, dan yang paling penting, diajak untuk mempertanyakan apakah teori-teori itu benar-benar universal atau justru merupakan produk dari budaya tertentu.',
+    body: `
+      <h3>Teori-Teori Besar yang Menjadi Fondasi</h3>
+      <p>Etika Kebajikan (Virtue Ethics) yang dikembangkan Aristoteles memusatkan perhatian pada karakter manusia. Bukan "apa yang harus kita lakukan" melainkan "jenis manusia apa yang seharusnya kita jadikan diri kita." Kebajikan seperti keberanian, kebijaksanaan, dan keadilan adalah sifat-sifat yang harus dilatih melalui kebiasaan. Yang menarik secara lintas budaya adalah bahwa banyak tradisi lain punya konsep serupa. Konfusianisme di Tiongkok berbicara tentang <em>ren</em> (cinta kasih) dan <em>li</em> (kesopanan) sebagai kebajikan yang harus dikultur. Tradisi Hindu berbicara tentang <em>dharma</em>. Pertanyaannya kemudian adalah apakah kebajikan-kebajikan itu sama, ataukah hanya tampak serupa dari luar?</p>
+      <p>Deontologi dari Immanuel Kant berpendapat bahwa moralitas terletak pada kewajiban dan niat, bukan pada konsekuensi. Kita harus bertindak berdasarkan kewajiban moral yang dapat dirasionalkan, bukan sekadar berdasarkan perasaan atau kebiasaan budaya. Posisi ini secara historis menjadi fondasi filosofis dari wacana hak asasi manusia universal, namun juga sering dikritik karena terlalu abstrak dan mengabaikan konteks sosial budaya yang nyata.</p>
+      <p>Utilitarianisme dari Jeremy Bentham dan John Stuart Mill mengajarkan bahwa tindakan yang benar adalah tindakan yang menghasilkan kebaikan terbesar bagi jumlah orang terbesar. Teori ini terdengar praktis dan demokratis, namun dalam konteks budaya ia punya kelemahan serius. Siapa yang mendefinisikan "kebaikan"? Apakah kebaikan itu diukur dengan standar budaya mayoritas atau budaya yang paling berkuasa? Ini adalah pertanyaan yang sangat relevan dalam konteks Indonesia yang majemuk.</p>
+      <p>Etika Care yang dikembangkan oleh Carol Gilligan dan Nel Noddings menawarkan perspektif yang berbeda. Ia berpendapat bahwa moralitas yang baik bukan hanya soal prinsip-prinsip abstrak, melainkan soal hubungan dan kepedulian konkret terhadap orang-orang yang ada di sekitar kita. Etika ini sangat resonan dengan nilai-nilai kolektif dalam banyak budaya Asia, Afrika, dan masyarakat adat yang mendahulukan hubungan komunal di atas hak individu.</p>
+
+      <h3>Dua Jebakan yang Harus Dihindari</h3>
+      <p>Salah satu tujuan paling penting dari mata kuliah ini adalah melatih mahasiswa untuk menghindari dua jebakan berpikir yang sangat umum namun sangat berbahaya.</p>
+      <p>Jebakan pertama adalah <strong>etnosentrisme</strong>. Ini adalah kecenderungan untuk menjadikan budaya sendiri sebagai tolak ukur kebenaran dan menilai budaya lain berdasarkan standar tersebut. Etnosentrisme tidak selalu muncul dalam bentuk yang kasar dan eksplisit. Ia sering hadir dalam bentuk yang halus, misalnya ketika kita secara otomatis menganggap bahwa cara pengambilan keputusan berbasis musyawarah adalah "lambat dan tidak efisien" karena kita terbiasa dengan standar efisiensi model korporasi Barat. Etnosentrisme menutup kemungkinan kita untuk belajar dari kebijaksanaan yang ada di dalam tradisi yang berbeda dari kita.</p>
+      <p>Jebakan kedua adalah <strong>relativisme budaya yang ekstrem</strong>. Relativisme ekstrem berpendapat bahwa karena semua budaya setara, maka kita tidak boleh menghakimi praktik budaya apapun. Masalahnya, posisi ini membuat kita bisu di hadapan kekejaman yang nyata. Relativisme ekstrem, paradoksnya, justru bisa menjadi tameng yang melindungi ketidakadilan dari kritik.</p>
+      <p>Etika budaya mengajarkan kita untuk berdiri di antara dua jebakan ini dengan yang para filsuf sebut sebagai <em>universalisme yang sensitif budaya</em> atau <em>relativisme yang kritis</em>. Artinya, kita mengakui keberagaman budaya dan menghormatinya, namun tetap mempertahankan kemampuan untuk menilai secara moral ketika martabat manusia yang mendasar dilanggar.</p>
+
+      <h3>Relevansi dalam Konteks Indonesia</h3>
+      <p>Indonesia adalah laboratorium etika budaya yang luar biasa kaya. Dengan lebih dari 1.300 suku bangsa, ratusan bahasa daerah, dan berbagai sistem kepercayaan yang hidup berdampingan, Indonesia setiap harinya menghadapi pertanyaan-pertanyaan yang menjadi inti dari mata kuliah ini.</p>
+      <p>Konsep <em>gotong royong</em> misalnya, adalah sistem etika yang menempatkan kepentingan komunal di atas kepentingan individual. Ia bukan sekadar kebiasaan, melainkan sebuah visi tentang bagaimana kehidupan bersama yang baik seharusnya diorganisir.</p>
+      <p>Konsep <em>siri'</em> dalam budaya Bugis-Makassar adalah contoh lain yang menarik. Siri' adalah rasa malu atau kehormatan yang menjadi fondasi dari seluruh tatanan moral masyarakat. Dalam konteks etika budaya, ini menunjukkan bahwa banyak sistem moral di luar tradisi filsafat Barat memiliki kedalaman dan konsistensi internalnya sendiri yang layak dikaji secara serius.</p>
+      <p>Begitu pula dengan <em>musyawarah mufakat</em> sebagai mekanisme pengambilan keputusan. Ia mencerminkan sebuah epistemologi moral yang berbeda dari model voting mayoritas ala demokrasi liberal.</p>
+
+      <h3>Kemampuan yang Dibangun Melalui Mata Kuliah Ini</h3>
+      <p>Pada akhirnya, yang paling berharga dari mempelajari etika budaya bukan sekadar penguasaan teori-teori filsafat, melainkan sebuah kemampuan berpikir yang dalam bahasa akademik disebut <em>refleksivitas kritis</em>. Ini adalah kemampuan untuk mempertanyakan asumsi-asumsi budaya kita sendiri, bukan hanya mengkritisi asumsi budaya orang lain.</p>
+      <p>Budaya kita ibarat air bagi ikan. Ikan tidak sadar bahwa ia hidup di dalam air sampai ia ditarik keluar darinya. Begitu pula kita dengan nilai-nilai budaya kita.</p>
+      <p>Etika budaya, dengan segala kompleksitas dan ketidaknyamanannya, mengundang kita untuk sejenak "keluar dari air" itu, melihat diri kita sendiri dari luar, dan menjadi manusia yang lebih sadar, lebih rendah hati, dan lebih mampu berdialog dengan sesama manusia yang membawa kebenaran yang berbeda dari kebenaran kita.</p>
+    `
+  });
+}
+
+// ===== (old blob popup code removed — now using overlay) =====
+
+
+
+// ===== RELEVANSI PAGE POPUP =====
+const relevansiData = [
+  null,
+  {
+    num: '01',
+    title: 'Topik Etika Bisnis dan Perspektif Moral dalam Laporan',
+    icon: '📊',
+    accent: '0,245,255',
+    content: `
+      <p>Etika bisnis dalam konteks kuliner bukan sekadar mematuhi regulasi, melainkan tentang membangun budaya integritas yang mengalir dari puncak manajemen hingga ke lini terdepan produksi. Perspektif moral dalam pelaporan menjadi kunci kepercayaan publik terhadap sebuah merek atau institusi kuliner.</p>
+      <h3>Etika Pelaporan dalam Industri Kuliner</h3>
+      <p>Laporan yang etis dalam bisnis kuliner mencakup transparansi tentang asal bahan baku, metode pengolahan, kandungan nutrisi, serta dampak lingkungan dari operasional bisnis. Ketika pelaporan dilakukan secara jujur, ia menjadi fondasi kepercayaan yang sulit dihancurkan oleh pesaing.</p>
+      <h3>Perspektif Moral: Antara Kepentingan Bisnis dan Publik</h3>
+      <p>Seringkali terjadi ketegangan antara kepentingan bisnis jangka pendek dan tanggung jawab moral jangka panjang. Memilih untuk jujur tentang kekurangan produk, mengakui kesalahan, dan berkomunikasi secara terbuka kepada konsumen adalah tindakan moral yang pada akhirnya memperkuat posisi bisnis.</p>
+      <h3>Studi Kasus dan Implikasinya</h3>
+      <p>Beberapa merek kuliner global yang pernah tersandung skandal pelaporan tidak etis—seperti pemalsuan label organik atau penyembunyian data alergen—mengalami kerugian reputasi yang jauh melebihi keuntungan jangka pendek yang mereka raih. Ini membuktikan bahwa etika bisnis adalah investasi, bukan beban.</p>
+    `
+  },
+  {
+    num: '02',
+    title: 'Makanan sebagai Artefak Budaya dalam Konteks Digital',
+    icon: '🍽️',
+    accent: '255,45,120',
+    content: `
+      <p>Di era digital, makanan telah bertransformasi melampaui fungsi nutrisinya. Setiap hidangan yang difoto, dikurasi, dan disebarkan di media sosial membawa serta lapisan narasi budaya yang kompleks—membentuk persepsi, membangun identitas, dan kadang mendistorsi realitas.</p>
+      <h3>Makanan sebagai Teks Budaya</h3>
+      <p>Para ahli semiotika kuliner memandang makanan sebagai teks yang dapat dibaca: bahan-bahannya adalah kosakata, teknik memasaknya adalah tata bahasa, dan penyajiannya adalah narasi. Dalam konteks digital, teks ini dibaca oleh jutaan orang secara bersamaan, menciptakan dampak budaya yang belum pernah terjadi sebelumnya dalam sejarah manusia.</p>
+      <h3>Digitalisasi Kuliner dan Pergeseran Makna</h3>
+      <p>Fenomena food blogging, review platform, dan konten kuliner di media sosial telah mengubah cara orang berhubungan dengan makanan. Makanan tradisional yang dulu hanya dikenal dalam komunitas lokalnya kini bisa viral secara global—sebuah peluang sekaligus ancaman terhadap keaslian dan konteks budayanya.</p>
+      <h3>Tanggung Jawab Kreator Konten Kuliner</h3>
+      <p>Mereka yang menciptakan dan menyebarkan konten kuliner di ruang digital memiliki tanggung jawab etis untuk menyertakan konteks budaya yang memadai, menghindari eksotisasi yang merendahkan, dan memastikan bahwa narasi yang mereka bangun menghormati komunitas asal dari setiap hidangan yang mereka presentasikan.</p>
+    `
+  },
+  {
+    num: '03',
+    title: 'Kejujuran Visual dan Etika Komunikasi',
+    icon: '📸',
+    accent: '255,230,0',
+    content: `
+      <p>Dalam industri kuliner modern, komunikasi visual telah menjadi bahasa utama. Foto makanan yang menggugah selera, video memasak yang memukau, dan presentasi menu yang artistik semuanya berbicara sebelum kata-kata. Namun di balik keindahan visual ini, tersimpan pertanyaan etis yang mendasar: seberapa jujur gambaran yang kita sajikan?</p>
+      <h3>Manipulasi Visual dalam Pemasaran Kuliner</h3>
+      <p>Praktik styling makanan untuk fotografi telah berkembang menjadi industri tersendiri. Teknik seperti menggunakan lem sebagai pengganti susu, minyak motor untuk pancake, atau kapas sebagai es krim memang menghasilkan gambar yang sempurna—namun menciptakan ekspektasi yang mustahil dipenuhi oleh produk nyata, dan ini adalah masalah etika yang serius.</p>
+      <h3>Standar Kejujuran dalam Komunikasi Kuliner</h3>
+      <p>Etika komunikasi kuliner menuntut keseimbangan antara presentasi yang menarik dan representasi yang akurat. Konsumen berhak mendapatkan gambaran yang wajar tentang apa yang akan mereka terima. Ketika kenyataan terlalu jauh dari ekspektasi visual, kepercayaan tergerus dan reputasi merek hancur.</p>
+      <h3>Membangun Komunikasi yang Autentik</h3>
+      <p>Tren belakangan ini justru menunjukkan bahwa autentisitas lebih resonan dengan konsumen modern. Konten yang menampilkan proses memasak yang nyata, kesalahan yang manusiawi, dan produk apa adanya cenderung membangun koneksi emosional yang lebih kuat dan loyalitas yang lebih tahan lama.</p>
+    `
+  },
+  {
+    num: '04',
+    title: 'Tanggung Jawab Rantai Produksi dan Sustainability',
+    icon: '🌱',
+    accent: '0,245,255',
+    content: `
+      <p>Keberlanjutan dalam rantai produksi makanan bukan lagi pilihan—ia adalah keharusan etis dan bisnis. Di tengah krisis iklim yang semakin nyata, industri kuliner memikul tanggung jawab besar untuk bertransformasi menuju praktik produksi yang lebih bertanggung jawab terhadap planet dan masyarakat.</p>
+      <h3>Pertanian Regeneratif sebagai Fondasi Etis</h3>
+      <p>Pertanian regeneratif melampaui sekadar "tidak merusak"—ia secara aktif memulihkan kesehatan tanah, meningkatkan keanekaragaman hayati, dan menyerap karbon dari atmosfer. Bagi pelaku kuliner yang berkomitmen pada etika rantai produksi, bermitra dengan petani regeneratif adalah langkah konkret yang bermakna.</p>
+      <h3>Food Waste sebagai Isu Etika</h3>
+      <p>Sekitar sepertiga dari seluruh makanan yang diproduksi di dunia terbuang sia-sia, sementara ratusan juta orang masih mengalami kerawanan pangan. Mengelola food waste bukan hanya soal efisiensi bisnis—ini adalah tanggung jawab moral yang tidak bisa diabaikan oleh siapapun yang bekerja dalam industri pangan.</p>
+      <h3>Membangun Rantai Pasokan yang Transparan</h3>
+      <p>Transparansi rantai pasokan memungkinkan konsumen untuk membuat pilihan yang selaras dengan nilai-nilai mereka. Ketika sebuah restoran atau brand makanan dapat melacak dan mengkomunikasikan perjalanan setiap bahan—dari ladang hingga piring—mereka membangun kepercayaan yang menjadi keunggulan kompetitif yang berkelanjutan.</p>
+    `
+  },
+  {
+    num: '05',
+    title: 'Etika Profesional dan Brand Loyalty Erosion',
+    icon: '⚖️',
+    accent: '255,45,120',
+    content: `
+      <p>Brand loyalty dalam industri kuliner dibangun melalui akumulasi pengalaman positif selama bertahun-tahun, namun dapat runtuh dalam hitungan jam ketika pelanggaran etika profesional terungkap ke publik. Memahami dinamika ini adalah kunci untuk menjaga kepercayaan konsumen jangka panjang.</p>
+      <h3>Mekanisme Erosi Loyalitas Merek</h3>
+      <p>Brand loyalty erosion terjadi secara bertahap: dimulai dari keraguan kecil, berkembang menjadi ketidakpercayaan, dan akhirnya berakhir dengan pemutusan hubungan konsumen dengan merek. Pelanggaran etika—baik dalam kualitas produk, perlakuan terhadap karyawan, atau komunikasi yang tidak jujur—mempercepat proses ini secara dramatis.</p>
+      <h3>Etika Profesional sebagai Pelindung Merek</h3>
+      <p>Profesional kuliner yang menjunjung tinggi etika dalam setiap aspek pekerjaannya—dari pemilihan bahan hingga interaksi dengan tim—secara aktif membangun benteng perlindungan bagi merek mereka. Konsistensi etis menciptakan narasi merek yang otentik dan sulit untuk diserang.</p>
+      <h3>Pemulihan Pasca-Krisis Etika</h3>
+      <p>Ketika pelanggaran etika terlanjur terjadi, pemulihan membutuhkan lebih dari sekadar pernyataan maaf. Diperlukan tindakan nyata, perubahan sistemik, dan komitmen yang dapat diverifikasi. Merek yang berhasil pulih biasanya adalah yang berani mengakui kesalahan secara penuh dan menunjukkan perubahan yang konkret dan berkelanjutan.</p>
+    `
+  },
+  {
+    num: '06',
+    title: 'Swing Consumers sebagai Fenomena Etika',
+    icon: '🔄',
+    accent: '255,230,0',
+    content: `
+      <p>Swing consumers—konsumen yang tidak memiliki loyalitas tetap dan berpindah dari satu merek ke merek lain berdasarkan berbagai pertimbangan—merupakan fenomena yang semakin relevan dalam lanskap kuliner kontemporer. Perilaku mereka bukan sekadar soal preferensi rasa, melainkan cerminan dari sistem nilai dan respons etis terhadap praktik bisnis.</p>
+      <h3>Mengapa Konsumen Berpindah?</h3>
+      <p>Riset menunjukkan bahwa swing consumers modern sering kali berpindah merek bukan karena kualitas produk yang lebih baik, melainkan karena ketidaksesuaian antara nilai yang diklaim merek dan praktik nyata yang mereka lakukan. Isu seperti ketidakadilan terhadap pekerja, dampak lingkungan, atau ketidakjujuran pemasaran menjadi pemicu perpindahan yang signifikan.</p>
+      <h3>Swing Consumers sebagai Sinyal Pasar yang Etis</h3>
+      <p>Dari perspektif etika pasar, swing consumers berfungsi sebagai mekanisme koreksi alami. Perpindahan mereka mengirimkan sinyal kepada produsen bahwa praktik bisnis tertentu tidak dapat diterima. Ini adalah bentuk demokrasi konsumen yang, ketika dilakukan secara sadar dan berdasarkan nilai, mendorong industri untuk beroperasi dengan standar etika yang lebih tinggi.</p>
+      <h3>Implikasi bagi Praktisi Kuliner</h3>
+      <p>Bagi profesional kuliner, memahami fenomena swing consumers berarti mengenali bahwa setiap keputusan bisnis—besar maupun kecil—memiliki dimensi etis yang berpotensi mempengaruhi loyalitas konsumen. Membangun bisnis kuliner yang tahan terhadap perpindahan konsumen memerlukan konsistensi etis yang mendarah daging dalam seluruh aspek operasional.</p>
+    `
+  }
+];
+
+function openRelevansiPage(num) {
+  const d = relevansiData[num];
+  if (!d) return;
+
+  // Map accent RGB to named accent
+  let accent = 'yellow';
+  if (d.accent === '0,245,255') accent = 'cyan';
+  else if (d.accent === '255,45,120') accent = 'magenta';
+
+  openArtOverlay({
+    accent,
+    tag: 'RELEVANSI MATKUL',
+    label: d.icon + ' ' + d.num,
+    title: d.title,
+    pullquote: null,
+    body: d.content
+  });
+}
+</script>
+</body>
+</html>
